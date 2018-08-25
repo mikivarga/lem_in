@@ -26,10 +26,11 @@ typedef struct s_edge {
     int start;
     int end;
 } t_edge;
+
 typedef struct s_map
 {
+    char **the_rooms;
     char *farm_map;
-    char *the_rooms;
     int number_of_ants;
     int number_of_rooms;
     int number_of_links;

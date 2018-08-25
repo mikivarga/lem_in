@@ -40,9 +40,7 @@ void parse_map(t_map *pmap)
     
     ants_rooms_links = 0;
     if (!(pmap->farm_map = ft_strnew(MAX_READ)))//init
-    {
         exit(EXIT_FAILURE);//ERR
-    }
     while (get_next_line(STDIN_FILENO, data) > 0)
     {
         save_map(pmap, data);
@@ -56,9 +54,6 @@ void parse_map(t_map *pmap)
             exit(EXIT_FAILURE);//err
         }
         if (pfun_save[ants_rooms_links](pmap, data) && ants_rooms_links < 3)
-        {
             ants_rooms_links++;
-        }
     }
-    ft_putendl(pmap->farm_map);//show map
 }
