@@ -6,11 +6,10 @@
 # define MAX_READ 1024
 # define BUFF_SIZE MAX_READ * 2
 # define MAX_LEN_INT 10
-# define MAX_INTEGER_STR "2147483647"
 # define MAX_INTEGER_DIG 2147483647
-# define ANT "###ANTS"
-# define ROOM "###ROOMS"
-# define LINK "###LINKS"
+# define MAX_INTEGER_STR "2147483647"
+# define CMD_START "##start"
+# define CMD_END "##end"
 
 # define COMMAND(ch1, ch2) ((ch1) == '#' && (ch2) == '#')
 # define COMMENT(ch1, ch2) ((ch1) == '#' && (ch2) != '#')
@@ -27,13 +26,6 @@ typedef struct s_edge {
     int start;
     int end;
 } t_edge;
-
-typedef struct s_rooms {
-    int coord_x;
-    int coord_y;
-    char name[BUFF_SIZE];
-} t_rooms;
-
 typedef struct s_map
 {
     char *farm_map;

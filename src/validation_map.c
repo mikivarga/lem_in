@@ -1,12 +1,17 @@
 #include "../inc/lem_in.h"
 
-static t_boolean is_integer(char *str)
+static t_boolean is_integer(char *str, t_boolean fl)
 {
     size_t len;
+    char *ptr;
 
-    len = 0;
     if(!*str)
         return FALSE;
+    if (fl)
+    {
+        ptr = ft_strchr(str, ' ');
+        *ptr = '\0';
+    }
     if ((len = ft_strlen(str)) > MAX_LEN_INT)
         return FALSE;
     if (len == MAX_LEN_INT && ft_strcmp(str, MAX_INTEGER_STR))
@@ -15,12 +20,19 @@ static t_boolean is_integer(char *str)
         str++;
     while (ft_isdigit(*str++))
         ;
-    while (IS_SPACE(*str))
-        str++;
-    if (*str)
-        return FALSE;
-    return TRUE;
+    while (IS_SPACE(*str++))
+        ;
+    if (fl)
+        *ptr = ' ';
+    return (*str ? FALSE : TRUE);
 }
+/*
+int check_links(t_map *pmap, char *link)
+{
+    char *room;
+
+    return TRUE;
+}*/
 
 int links(t_map *pmap, char *str)
 {
@@ -54,32 +66,28 @@ int rooms(t_map *pmap, char *str)
             return TRUE;
     while(!NON_COMPLIANT_LINE(*str) && *str)
         str++;
-        ft_putstr(str);
     if(*str++ != ' ')
     {
         ft_putstr("*ptr != ' '\n");//ERR
         exit(EXIT_FAILURE);
     }
-    if (!is_integer(str))
+    if (!is_integer(str++, TRUE))
+    {
+        ft_putstr("1is_integer\n");//ERR
+        exit (EXIT_FAILURE);
+    }
+    if (!is_integer(str, FALSE))
     {
         ft_putstr("is_integer\n");//ERR
         exit (EXIT_FAILURE);
     }
-    str++;
-    if (!is_integer(str))
-    {
-        ft_putstr("is_integer\n");//ERR
-        exit (EXIT_FAILURE);
-    }
-    ft_putstr("rooms\n");
     pmap->number_of_rooms++;
     return FALSE;
 }
 
 int ants(t_map *pmap, char *str)
 {
-    ft_putstr("ants\n");
-    if (!is_integer(str)) {
+    if (!is_integer(str, FALSE)) {
         ft_putstr("is_integer\n");//ERR
         exit (EXIT_FAILURE);
     }

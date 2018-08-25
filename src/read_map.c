@@ -1,5 +1,13 @@
 #include "../inc/lem_in.h"
 
+static int incorrect_command(t_map *pmap)
+{
+    //static int beg = 0;
+    //static int end = 0;
+    (void)pmap;
+    return TRUE;
+}
+
 static void save_map(t_map *pmap, char *data)
 {
     static int buf_size = MAX_READ;
@@ -40,6 +48,8 @@ void parse_map(t_map *pmap)
         save_map(pmap, data);
         if (COMMENT(data[0], data[1]))
             continue ;
+        if (COMMAND(data[0], data[1]) && incorrect_command(pmap))
+            continue ;
         if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
         {
             ft_putstr("NEW_LINE || UNSUPORTED_ROOM || SPACE(data[0])\n");//ERR
@@ -47,8 +57,6 @@ void parse_map(t_map *pmap)
         }
         if (pfun_save[ants_rooms_links](pmap, data) && ants_rooms_links < 3)
         {
-            ft_putnbr(ants_rooms_links);
-            ft_putchar('\n');
             ants_rooms_links++;
         }
     }
