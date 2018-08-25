@@ -6,7 +6,11 @@
 # define MAX_READ 1024
 # define BUFF_SIZE MAX_READ * 2
 # define MAX_LEN_INT 10
-# define MAX_INTEGER "2147483647"
+# define MAX_INTEGER_STR "2147483647"
+# define MAX_INTEGER_DIG 2147483647
+# define ANT "###ANTS"
+# define ROOM "###ROOMS"
+# define LINK "###LINKS"
 
 # define COMMAND(ch1, ch2) ((ch1) == '#' && (ch2) == '#')
 # define COMMENT(ch1, ch2) ((ch1) == '#' && (ch2) != '#')
@@ -19,26 +23,29 @@ typedef enum {FALSE, TRUE} t_boolean;
 typedef enum {KO, OK} t_valid;
 typedef enum {ANTS, ROOMS, LINKS} t_parse;
 
+typedef struct s_edge {
+    int start;
+    int end;
+} t_edge;
 
-typedef struct s_ant_map
-{
-
-} t_ant_map;   
-
+typedef struct s_rooms {
+    int coord_x;
+    int coord_y;
+    char name[BUFF_SIZE];
+} t_rooms;
 
 typedef struct s_map
 {
+    char *farm_map;
     char *the_rooms;
     int number_of_ants;
     int number_of_rooms;
-
-
+    int number_of_links;
 } t_map;
 
 int get_next_line(const int fd, char *line);
 void parse_map(t_map *pmap);
-t_boolean checking_ants(char *str);
-t_boolean checking_rooms(char *str);
-t_boolean checking_links(char *str);
-
+int links(t_map *pmap, char *str);
+int rooms(t_map *pmap, char *str);
+int ants(t_map *pmap, char *str);
 #endif /*LEM_IN_H*/
