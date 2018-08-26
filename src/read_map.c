@@ -1,11 +1,25 @@
 #include "../inc/lem_in.h"
 
-static int incorrect_command(t_map *pmap)
+static void is_correct_command(t_map *pmap, char *data, int is_room)
 {
-    //static int beg = 0;
-    //static int end = 0;
-    (void)pmap;
-    return TRUE;
+    static int start = 0;
+    static int end = 0;
+
+    if (!ft_strcmp(CMD_START, data))
+    {
+        pmap->index_start = pmap->number_of_rooms;
+        start++;
+    }
+    if (!ft_strcmp(CMD_END, data))
+    {
+        pmap->index_end = pmap->number_of_rooms;
+        end++;
+    }
+    if (start > 1 || end > 1 || is_room != ROOMS)
+    {
+        ft_putstr("NEW_LINE || UNSUPORTED_ROOM || SPACE(data[0])\n");//ERR
+        exit(EXIT_FAILURE);
+    }
 }
 
 static void save_map(t_map *pmap, char *data)
@@ -43,16 +57,17 @@ void parse_map(t_map *pmap)
         exit(EXIT_FAILURE);//ERR
     while (get_next_line(STDIN_FILENO, data) > 0)
     {
-        save_map(pmap, data);
+        save_map(pmap, data);//?
+        ft_putendl(data);
         if (COMMENT(data[0], data[1]))
             continue ;
-        if (COMMAND(data[0], data[1]) && incorrect_command(pmap))
-            continue ;
-        if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
+        if (COMMAND(data[0], data[1]))
         {
-            ft_putstr("NEW_LINE || UNSUPORTED_ROOM || SPACE(data[0])\n");//ERR
-            exit(EXIT_FAILURE);//err
+            is_correct_command(pmap, data, ants_rooms_links);
+            continue ;
         }
+        if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
+            exit(EXIT_FAILURE);//err
         if (pfun_save[ants_rooms_links](pmap, data) && ants_rooms_links < 3)
             ants_rooms_links++;
     }

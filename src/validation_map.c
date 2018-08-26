@@ -27,19 +27,50 @@ static t_boolean is_integer(char *str, t_boolean fl)
     return (*str ? FALSE : TRUE);
 }
 
+void add_room_to_matrix(t_map *pmap, char *room1, char *room2, t_vertex st)
+{
+    char **room;
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    room = pmap->the_rooms;
+    while (*room)
+    {
+        if (!ft_strcmp(*room++, room1))
+            break ;
+        i++;
+    }
+    room = pmap->the_rooms;
+    while (*room)
+    {
+        if (!ft_strcmp(*room++, room2))
+            break ;
+        j++;
+    }
+    pmap->matrix[i][j] = st;
+}
+
 int is_correct_links(t_map *pmap, char *room1, char *room2)
 {
-    int cnt_rooms;
-    char *room;
+    char **room;
+    t_boolean link1;
+    t_boolean link2;
 
-    cnt_rooms = pmap->number_of_rooms;
-    if (!link || !ft_strcmp(room1, room2))
+    link1 = FALSE;
+    link2 = FALSE;
+    room = pmap->the_rooms;
+    if (!*room2 || !ft_strcmp(room1, room2))
         return FALSE;
-    while(cnt_rooms >= 0)
+    while(*room)
     {
-        ft_strncmp()//need array of rooms;
+        if (!ft_strcmp(*room, room1))
+            link1 = TRUE;
+        if (!ft_strcmp(*room++, room2))
+            link2 = TRUE;
     }
-    return TRUE;
+    return (link1 == link2 && link1 == TRUE);
 }
 
 int links(t_map *pmap, char *str)
@@ -50,42 +81,73 @@ int links(t_map *pmap, char *str)
     link1 = ft_strchr(str, '-');
     link2 = ft_strrchr(str, '-');
     if (!link1 || link1 != link2)
-    {
-        ft_putstr("(!link1 || link1 != link2)");//ERR
         exit(EXIT_FAILURE);
-    }
     *link1 = '\0';
     if (!is_correct_links(pmap, str, link1 + 1))
-    {
-        ft_putstr("!checking_links(pmap, str, link1 + 1)");//ERR
         exit(EXIT_FAILURE);
-    }
+    add_room_to_matrix(pmap, str, link1 + 1, GREEN);
     *link1 = '-';
     while (*str) 
     {
         if (!ft_isalnum(*str) && *str != '-')
-        {
-            ft_putstr("!ft_isalnum(*str) && *str != '-'");//ERR
             exit(EXIT_FAILURE);
-        }
         str++;
     }
-    pmap->number_of_links++;
     return FALSE;
+}
+
+void create_matrix(t_map *pmap)
+{
+    int i;
+    int j;
+
+    i = pmap->number_of_rooms;
+    pmap->matrix = (int **)malloc(sizeof(int *) * (i));
+    if (!pmap->matrix)
+    {
+        ft_putstr("malloc\n");//ERR
+        exit(EXIT_FAILURE);
+    }
+    while (i-- > 0)
+    {
+        j = pmap->number_of_rooms;
+        pmap->matrix[i] = (int *)malloc(sizeof(int) * (j));
+        while(j-- > 0)
+            pmap->matrix[i][j] = ORANGE;
+    }
+}
+
+void save_rooms(t_map *pmap, char *str)//needed check if the romm is new
+{
+    char **pp;
+    char **old_rooms;
+
+    if (!*str)
+        return ;
+    pp = (char **)malloc(sizeof(char *) *(pmap->number_of_rooms + 2));
+    if (!pp)
+    {
+        ft_putstr("malloc\n");//ERR
+        exit(EXIT_FAILURE);
+    }
+    old_rooms = pmap->the_rooms;
+    while (pmap->number_of_rooms && *old_rooms)
+        *pp++ = *old_rooms++;
+    *pp++ = ft_strdup(str);
+    *pp = 0;
+    if (pmap->number_of_rooms)
+        free(old_rooms - (pmap->number_of_rooms));
+    pmap->the_rooms = pp - (pmap->number_of_rooms + 1);
 }
 
 int rooms(t_map *pmap, char *str)
 {
-    char **tmp;
-    int cnt_rooms;
+    char *new_room;
 
+    new_room = str;
     if (ft_strchr(str, '-'))//???if room consist '-'
     {
-        cnt_rooms = pmap->number_of_rooms;
-        while (cnt_rooms >= 0)
-        {
-            ft_strncmp()//  гамнокод простіше при виділенні памяті записувати!!
-        }
+        create_matrix(pmap);
         if (!links(pmap, str))
         {
             return TRUE;
@@ -98,6 +160,7 @@ int rooms(t_map *pmap, char *str)
         ft_putstr("*ptr != ' '\n");//ERR
         exit(EXIT_FAILURE);
     }
+    *(str - 1) = '\0';
     if (!is_integer(str++, TRUE))
     {
         ft_putstr("1is_integer\n");//ERR
@@ -108,6 +171,7 @@ int rooms(t_map *pmap, char *str)
         ft_putstr("is_integer\n");//ERR
         exit (EXIT_FAILURE);
     }
+    save_rooms(pmap, new_room);
     pmap->number_of_rooms++;
     return FALSE;
 }
