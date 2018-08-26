@@ -11,6 +11,7 @@
 			err_function.c \
 			algorithm.c \
 			room_index.c \
+			stack.c \
 			print.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
