@@ -27,6 +27,73 @@ typedef struct s_edge {
     int end;
 } t_edge;
 
+typedef struct s_stack {
+    t_edge e;
+    struct s_stack *next;
+} t_stack;
+/*
+struct s_stack *new_node(t_edge e)
+{
+
+}
+
+struct StackNode* newNode(int data)
+{
+    struct StackNode* stackNode =
+              (struct StackNode*) malloc(sizeof(struct StackNode));
+    stackNode->data = data;
+    stackNode->next = NULL;
+    return stackNode;
+}
+ 
+int isEmpty(struct StackNode *root)
+{
+    return !root;
+}
+ 
+void push(struct StackNode** root, int data)
+{
+    struct StackNode* stackNode = newNode(data);
+    stackNode->next = *root;
+    *root = stackNode;
+    printf("%d pushed to stack\n", data);
+}
+ 
+int pop(struct StackNode** root)
+{
+    if (isEmpty(*root))
+        return INT_MIN;
+    struct StackNode* temp = *root;
+    *root = (*root)->next;
+    int popped = temp->data;
+    free(temp);
+ 
+    return popped;
+}
+ 
+int peek(struct StackNode* root)
+{
+    if (isEmpty(root))
+        return INT_MIN;
+    return root->data;
+}
+ 
+int main()
+{
+    struct StackNode* root = NULL;
+ 
+    push(&root, 10);
+    push(&root, 20);
+    push(&root, 30);
+ 
+    printf("%d popped from stack\n", pop(&root));
+ 
+    printf("Top element is %d\n", peek(root));
+ 
+    return 0;
+}*/
+
+
 typedef struct s_map
 {
     char **the_rooms;
