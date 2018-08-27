@@ -61,7 +61,7 @@ int is_correct_links(t_map *pmap, char *room1, char *room2)
     link1 = FALSE;
     link2 = FALSE;
     room = pmap->the_rooms;
-    if (!*room2 || !ft_strcmp(room1, room2))
+    if (!*room2)// || !ft_strcmp(room1, room2))
         return FALSE;
     while(*room)
     {

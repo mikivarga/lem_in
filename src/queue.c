@@ -1,85 +1,53 @@
-/* local functions */
-static void CopyToNode(Item item, Node * pn);
-static void CopyToItem(Node * pn, Item * pi);
+#include "../inc/lem_in.h"
 
-void InitializeQueue(Queue * pq)
+void q_initialize(t_queue * pq)
 {
     pq->front = pq->rear = NULL;
     pq->items = 0;
 }
 
-bool QueueIsFull(const Queue * pq)
-{
-    return pq->items == MAXQUEUE;
-}
-
-bool QueueIsEmpty(const Queue * pq)
+t_boolean q_is_empty(const t_queue *pq)
 {
     return pq->items == 0;
 }
 
-int QueueItemCount(const Queue * pq)
+int q_item_count(const t_queue * pq)
 {
     return pq->items;
 }
 
-bool EnQueue(Item item, Queue * pq)
+t_boolean q_push(int index, t_queue * pq)
 {
-    Node * pnew;
+    t_node *pnew;
 
-    if (QueueIsFull(pq))
-        return false;
-    pnew = (Node *) malloc( sizeof(Node));
-    if (pnew == NULL)
+    if (!(pnew = (t_node *)malloc(sizeof(t_node))))
     {
-        fprintf(stderr,"Unable to allocate memory!\n");
-        exit(1);
+        ft_putendl("Unable to allocate memory!");
+        exit(EXIT_FAILURE);
     }
-    CopyToNode(item, pnew);
+    pnew->index = index;
     pnew->next = NULL;
-    if (QueueIsEmpty(pq))
-        pq->front = pnew;           /* item goes to front     */
+    if (pq->items == 0)
+        pq->front = pnew;
     else
-        pq->rear->next = pnew;      /* link at end of queue   */
-    pq->rear = pnew;                /* record location of end */
-    pq->items++;                    /* one more item in queue */
-   
-    return true;
+        pq->rear->next = pnew;
+    pq->rear = pnew;
+    pq->items++;
+    return TRUE;
 }
 
-bool DeQueue(Item * pitem, Queue * pq)
+t_boolean q_pop(int *index, t_queue * pq)
 {
-    Node * pt;
+    t_node *pt;
 
-    if (QueueIsEmpty(pq))
-        return false;
-    CopyToItem(pq->front, pitem);
+    if (pq->items == 0)
+        return FALSE;
+    *index = pq->front->index;
     pt = pq->front;
     pq->front = pq->front->next;
     free(pt);
     pq->items--;
     if (pq->items == 0)
         pq->rear = NULL;
- 
-    return true;
-}
-
-/* empty the queue                */
-void EmptyTheQueue(Queue * pq)
-{
-    Item dummy;
-    while (!QueueIsEmpty(pq))
-        DeQueue(&dummy, pq);
-}
-
-/* Local functions                 */
-
-static void CopyToNode(Item item, Node * pn)
-{
-    pn->item = item;
-}
-
-static void CopyToItem(Node * pn, Item * pi)
-{
-    *pi = pn->item;
+    return TRUE;
 }

@@ -3,7 +3,13 @@
 struct s_stack *s_new_node(t_edge data)
 {
     struct s_stack *node;
+    
     node = (struct s_stack *)malloc(sizeof(struct s_stack));
+    if (!node)
+    {
+        ft_putendl("Unable to allocate memory!");
+        exit(EXIT_FAILURE);
+    }
     node->e = data;
     node->next = NULL;
     return node;

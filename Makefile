@@ -12,6 +12,7 @@
 			algorithm.c \
 			room_index.c \
 			stack.c \
+			queue.c \
 			print.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
