@@ -3,32 +3,15 @@
 
 void check_way(t_map *pmap)
 {
-    if (TRUE)
-    {
-        int i, j;
-    i = 0;
-    while (i < pmap->number_of_rooms)
-    {
-        j = 0;
-        while(j < pmap->number_of_rooms)
-        {
-            ft_putnbr(pmap->matrix[i][j]);
-            j++;
-        }
-        i++;
-        ft_putchar('\n');
-    }
-    }
-
-
     t_queue queue;
-    //struct s_stack *root = NULL;
-    //t_edge e;
+    struct s_stack *root = NULL;
+    t_edge e;
     //int *nodes;
     //int i;
    
     int j;
-
+        int req = pmap->index_end;
+        printf("!!!!!!!!!!!! req = %d\n", req);
     q_initialize(&queue);
     /*nodes = (int *)malloc(sizeof(int) * pmap->number_of_rooms);
     if (!nodes)
@@ -40,10 +23,10 @@ void check_way(t_map *pmap)
     while (i < pmap->number_of_rooms)
         nodes[i++] = 0;
         */
-       int nodes[7]; // вершины графа
+    int nodes[7]; // вершины графа
   for (int i = 0; i < 7; i++)
     nodes[i] = 0; // и
-    q_push(0, &queue);
+    q_push(pmap->index_start, &queue);
     while (!q_is_empty(&queue))
     {
         int node;
@@ -54,29 +37,44 @@ void check_way(t_map *pmap)
         {
             if (pmap->matrix[node][j] == 1 && nodes[j] == 0)
             {
+                printf("push\n");
                 q_push(j, &queue);
                 nodes[j] = 1;
-                //e.start = node;
-                //e.start = j;
-                //s_push(&root, e);
-                /*if (node == pmap->index_end)
-                    break;*/
+                e.start = node;
+                e.end = j;
+                s_push(&root, e);
+                if (node == req)
+                    break;
             }
             j++;
         }
         printf("NODE   %d\n", node + 1);
     }
+    printf("WAY to %s ", pmap->the_rooms[req]);
+    while (!s_is_empty(root))
+    {
+        e = s_peek(root);
+        s_pop(&root);
+        if (e.end == req) 
+        {
+            req = e.start;
+            printf(" <- %s",  pmap->the_rooms[req]);
+        }
+    }
+    printf("\n");
 }
 
 int main(void)
 {
     t_map map;
 
+    map.the_rooms = NULL;
+    map.matrix = NULL;
     map.number_of_ants = 0;
     map.number_of_rooms = 0;
     map.index_start = 0;
     map.index_end = 0;
-    parse_map(&map);
+    read_map(&map);
     
     int i, j;
     i = 0;
@@ -92,23 +90,6 @@ int main(void)
         ft_putchar('\n');
     }
     ft_putstr("\n\n");
-
     check_way(&map);
     return 0;
 }
-
-/* 
-int main()
-{
-    struct StackNode* root = NULL;
- 
-    push(&root, 10);
-    push(&root, 20);
-    push(&root, 30);
- 
-    printf("%d popped from stack\n", pop(&root));
- 
-    printf("Top element is %d\n", peek(root));
- 
-    return 0;
-}*/

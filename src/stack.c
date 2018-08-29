@@ -10,7 +10,8 @@ struct s_stack *s_new_node(t_edge data)
         ft_putendl("Unable to allocate memory!");
         exit(EXIT_FAILURE);
     }
-    node->e = data;
+    node->e.start = data.start;
+    node->e.end = data.end;
     node->next = NULL;
     return node;
 }
@@ -27,7 +28,7 @@ void s_push(struct s_stack **root, t_edge data)
     node = s_new_node(data);
     node->next = *root;
     *root = node;
-    ft_putstr("pushed to stack\n");
+    //ft_putstr("pushed to stack\n");
 }
 
 int s_pop(struct s_stack **root)

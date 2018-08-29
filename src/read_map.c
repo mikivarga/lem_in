@@ -1,10 +1,19 @@
 #include "../inc/lem_in.h"
+#include <stdio.h>
 
-static void is_correct_command(t_map *pmap, char *data, int is_room)
+static t_boolean is_command(t_map *pmap, char *data, t_parse is_room)
 {
     static int start = 0;
     static int end = 0;
 
+    if (!COMMAND(data[0], data[1]))
+    {
+        if (is_room == LINKS && (start != 1 || end != 1))
+        {
+            exit(EXIT_FAILURE);//err
+        }
+        return FALSE;
+    }
     if (!ft_strcmp(CMD_START, data))
     {
         pmap->index_start = pmap->number_of_rooms;
@@ -17,58 +26,99 @@ static void is_correct_command(t_map *pmap, char *data, int is_room)
     }
     if (start > 1 || end > 1 || is_room != ROOMS)
     {
-        ft_putstr("NEW_LINE || UNSUPORTED_ROOM || SPACE(data[0])\n");//ERR
-        exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);//err
     }
+    return TRUE;
 }
 
-static void save_map(t_map *pmap, char *data)
+static t_boolean is_links(t_map *pmap, char *str)
 {
-    static int buf_size = MAX_READ;
-    char *new_farm_map;
-    char *old_farm_map;
-    char *tmp;
-
-    if ((int)(ft_strlen(pmap->farm_map) + ft_strlen(data)) > buf_size)
+    char *link1;
+    char *link2;
+ 
+    link1 = ft_strchr(str, '-');
+    link2 = ft_strrchr(str, '-');
+    if (!link1 || link1 != link2)
+        exit(EXIT_FAILURE);//err
+    *link1 = '\0';
+    if (!add_room_to_matrix(pmap, str, link1 + 1, GREEN))
+        exit(EXIT_FAILURE);
+        
+    *link1 = '-';
+    while (*str) 
     {
-        old_farm_map = pmap->farm_map;
-        buf_size *= 2;
-        if (!(new_farm_map = (char *)malloc((buf_size) * sizeof(char))))
-            exit(EXIT_FAILURE);//ERR
-        ft_bzero(new_farm_map, buf_size);
-        tmp = new_farm_map;
-        while ((*new_farm_map++ = *old_farm_map++))
-            ;
-        free(pmap->farm_map);
-        pmap->farm_map = tmp;
+        if (!ft_isalnum(*str) && *str != '-')
+            exit(EXIT_FAILURE);
+        str++;
     }
-    ft_strncat(pmap->farm_map, data, ft_strlen(data));
-    ft_strncat(pmap->farm_map, "\n", 1); 
+    return FALSE;
 }
 
-void parse_map(t_map *pmap)
+static t_boolean is_rooms(t_map *pmap, char *str)
+{
+    char *room;
+    char *coord_y;
+
+    room = str;
+    while (*str && ft_isalnum(*str))
+        str++;
+    if (!*str || !*(str + 1) || *str != ' ')// || !ft_isdigit(*(str + 1)))
+    {
+        create_matrix(pmap);
+        is_links(pmap, room);
+        return TRUE;
+    }
+    *str++ = '\0';
+    if (!(coord_y = ft_strchr(str, ' ')) || coord_y == str)
+    {
+        create_matrix(pmap);
+        is_links(pmap, room);
+        return TRUE;
+    }
+    *coord_y++ = '\0';
+    if (!is_integer(str) || !is_integer(coord_y))
+        exit(EXIT_FAILURE);
+    save_rooms(pmap, room);
+    pmap->number_of_rooms++;
+    return FALSE;
+}
+
+static t_boolean is_ants(t_map *pmap, char *str)
+{
+    if (!is_integer(str))
+        exit(EXIT_FAILURE);
+    pmap->number_of_ants = ft_atoi(str);
+    if (pmap->number_of_ants <= 0)
+        exit(EXIT_FAILURE);
+    return TRUE;
+}
+
+void read_map(t_map *pmap)
 {
     char data[BUFF_SIZE];
     int ants_rooms_links;
-    int (*pfun_save[3])(t_map *, char *) = {ants, rooms, links};
+    t_boolean (*pfun_save[FORMAT])(t_map *, char *) = {is_ants, is_rooms, is_links};
     
-    ants_rooms_links = 0;
-    if (!(pmap->farm_map = ft_strnew(MAX_READ)))//init
-        exit(EXIT_FAILURE);//ERR
+    ants_rooms_links = ANTS;
     while (get_next_line(STDIN_FILENO, data) > 0)
     {
-        save_map(pmap, data);//?
+        str_trim_end(data);
         ft_putendl(data);
         if (COMMENT(data[0], data[1]))
-            continue ;
-        if (COMMAND(data[0], data[1]))
         {
-            is_correct_command(pmap, data, ants_rooms_links);
+            continue ;
+        }
+        if (is_command(pmap, data, ants_rooms_links))
+        {
             continue ;
         }
         if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
+        {
             exit(EXIT_FAILURE);//err
-        if (pfun_save[ants_rooms_links](pmap, data) && ants_rooms_links < 3)
+        }
+        if (pfun_save[ants_rooms_links](pmap, data) && ants_rooms_links < FORMAT)
+        {
             ants_rooms_links++;
+        }
     }
 }

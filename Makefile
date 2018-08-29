@@ -8,9 +8,8 @@
 			read_map.c \
 			get_next_line.c \
 			validation_map.c \
+			matrix.c \
 			err_function.c \
-			algorithm.c \
-			room_index.c \
 			stack.c \
 			queue.c \
 			print.c

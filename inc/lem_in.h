@@ -5,6 +5,7 @@
 
 # define MAX_READ 1024
 # define BUFF_SIZE MAX_READ * 2
+# define FORMAT 3
 # define MAX_LEN_INT 10
 # define MAX_INTEGER_DIG 2147483647
 # define MAX_INTEGER_STR "2147483647"
@@ -22,12 +23,14 @@ typedef enum {FALSE, TRUE} t_boolean;
 typedef enum {ORANGE, GREEN, GRAY, PUPLE} t_vertex;
 typedef enum {ANTS, ROOMS, LINKS} t_parse;
 
-typedef struct s_edge {
+typedef struct s_edge
+{
     int start;
     int end;
 } t_edge;
 
-typedef struct s_stack {
+typedef struct s_stack
+{
     t_edge e;
     struct s_stack *next;
 } t_stack;
@@ -49,7 +52,6 @@ typedef struct s_map
 {
     char **the_rooms;
     int **matrix;
-    char *farm_map;/*?not need*/
     int index_start;
     int index_end;
     int number_of_ants;
@@ -57,11 +59,12 @@ typedef struct s_map
 } t_map;
 
 int get_next_line(const int fd, char *line);
-void parse_map(t_map *pmap);
-int links(t_map *pmap, char *str);
-int rooms(t_map *pmap, char *str);
-int ants(t_map *pmap, char *str);
-int room_index(t_map *pmap, char *room);/*not need?*/
+void read_map(t_map *pmap);
+void str_trim_end(char *str);
+t_boolean is_integer(char *str);
+void save_rooms(t_map *pmap, char *str);
+void create_matrix(t_map *pmap);
+t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2, t_vertex st);
 
 struct s_stack *s_new_node(t_edge e);
 int s_is_empty(struct s_stack *root);
