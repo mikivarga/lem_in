@@ -52,10 +52,12 @@ typedef struct s_map
 {
     char **the_rooms;
     char **matrix;
+    int **ways;
     int index_start;
     int index_end;
     int number_of_ants;
     int number_of_rooms;
+    int number_of_ways;
 } t_map;
 
 int get_next_line(const int fd, char *line);

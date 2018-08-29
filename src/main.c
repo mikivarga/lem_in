@@ -7,8 +7,10 @@ int main(void)
 
     map.the_rooms = NULL;
     map.matrix = NULL;
+    map.ways = NULL;
     map.number_of_ants = 0;
     map.number_of_rooms = 0;
+    map.number_of_ways = 0;
     map.index_start = 0;
     map.index_end = 0;
     read_map(&map);
@@ -31,5 +33,7 @@ int main(void)
 
     while (check_ways(&map))
         ;
+
+        //free all;
     return 0;
 }
