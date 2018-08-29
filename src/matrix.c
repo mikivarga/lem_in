@@ -1,7 +1,23 @@
 #include "../inc/lem_in.h"
 #include <stdio.h>
 
-t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2, t_vertex st)
+void clear_room_in_matrix(t_map *pmap, int index)
+{
+    int i;
+
+    i = 0;
+    if (index != pmap->index_start)
+    {
+        while (i < pmap->number_of_rooms)
+            pmap->matrix[index][i++] = ORANGE;
+    }
+    else
+    {
+        pmap->matrix[index][pmap->index_end] = ORANGE;
+    }
+}
+
+t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2)
 {
     char **room;
     int i;
@@ -25,8 +41,8 @@ t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2, t_vertex st)
     }
     if (i == pmap->number_of_rooms || j == pmap->number_of_rooms)
         return FALSE;
-    pmap->matrix[i][j] = st;
-    pmap->matrix[j][i] = st;
+    pmap->matrix[i][j] = GREEN;
+    pmap->matrix[j][i] = GREEN;
     return TRUE;
 }
 
@@ -36,7 +52,7 @@ void create_matrix(t_map *pmap)
     int j;
 
     i = pmap->number_of_rooms;
-    pmap->matrix = (int **)malloc(sizeof(int *) * (i));
+    pmap->matrix = (char **)malloc(sizeof(char *) * (i));
     if (!pmap->matrix)
     {
         ft_putstr("malloc\n");//ERR
@@ -45,7 +61,7 @@ void create_matrix(t_map *pmap)
     while (i-- > 0)
     {
         j = pmap->number_of_rooms;
-        pmap->matrix[i] = (int *)malloc(sizeof(int) * (j));
+        pmap->matrix[i] = (char *)malloc(sizeof(char) * (j));
         while(j-- > 0)
             pmap->matrix[i][j] = ORANGE;
     }

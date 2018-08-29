@@ -12,6 +12,7 @@
 			err_function.c \
 			stack.c \
 			queue.c \
+			select_ways.c \
 			print.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))

@@ -41,7 +41,7 @@ static t_boolean is_links(t_map *pmap, char *str)
     if (!link1 || link1 != link2)
         exit(EXIT_FAILURE);//err
     *link1 = '\0';
-    if (!add_room_to_matrix(pmap, str, link1 + 1, GREEN))
+    if (!add_room_to_matrix(pmap, str, link1 + 1))
         exit(EXIT_FAILURE);
         
     *link1 = '-';

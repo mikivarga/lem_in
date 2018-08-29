@@ -51,7 +51,7 @@ typedef struct s_queue
 typedef struct s_map
 {
     char **the_rooms;
-    int **matrix;
+    char **matrix;
     int index_start;
     int index_end;
     int number_of_ants;
@@ -64,7 +64,9 @@ void str_trim_end(char *str);
 t_boolean is_integer(char *str);
 void save_rooms(t_map *pmap, char *str);
 void create_matrix(t_map *pmap);
-t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2, t_vertex st);
+t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2);
+void clear_room_in_matrix(t_map *pmap, int index);
+t_boolean check_ways(t_map *pmap);
 
 struct s_stack *s_new_node(t_edge e);
 int s_is_empty(struct s_stack *root);

@@ -51,7 +51,9 @@ void save_rooms(t_map *pmap, char *str)//needed check if the romm is new
     }
     old_rooms = pmap->the_rooms;
     while (pmap->number_of_rooms && *old_rooms)
+    {
         *pp++ = *old_rooms++;
+    }
     *pp++ = ft_strdup(str);
     *pp = 0;
     if (pmap->number_of_rooms)

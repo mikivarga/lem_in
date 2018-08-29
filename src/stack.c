@@ -28,7 +28,6 @@ void s_push(struct s_stack **root, t_edge data)
     node = s_new_node(data);
     node->next = *root;
     *root = node;
-    //ft_putstr("pushed to stack\n");
 }
 
 int s_pop(struct s_stack **root)
