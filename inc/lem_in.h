@@ -11,6 +11,7 @@
 # define MAX_INTEGER_STR "2147483647"
 # define CMD_START "##start"
 # define CMD_END "##end"
+# define MAX_WAYS 1000
 
 # define COMMAND(ch1, ch2) ((ch1) == '#' && (ch2) == '#')
 # define COMMENT(ch1, ch2) ((ch1) == '#' && (ch2) != '#')
@@ -68,7 +69,7 @@ void save_rooms(t_map *pmap, char *str);
 void create_matrix(t_map *pmap);
 t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2);
 void clear_room_in_matrix(t_map *pmap, int index);
-t_boolean check_ways(t_map *pmap);
+t_boolean check_ways(t_map *pmap, struct s_stack **st);
 
 struct s_stack *s_new_node(t_edge e);
 int s_is_empty(struct s_stack *root);
