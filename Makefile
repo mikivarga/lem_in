@@ -11,6 +11,7 @@
 			matrix.c \
 			err_function.c \
 			stack.c \
+			list.c \
 			queue.c \
 			select_ways.c \
 			print.c

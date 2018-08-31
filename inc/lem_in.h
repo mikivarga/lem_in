@@ -30,30 +30,32 @@ typedef struct s_edge
     int end;
 } t_edge;
 
-typedef struct s_stack
+typedef union u_data 
 {
+    int index;
     t_edge e;
-    struct s_stack *next;
-} t_stack;
+} t_data;
 
 typedef struct s_node
 {
-    int index;
-    struct s_node * next;
+    t_data info;
+    struct s_node *next;
 } t_node;
 
 typedef struct s_queue
 {
-    t_node * front;
-    t_node * rear;
+    t_node *front;
+    t_node *rear;
     int items;
 } t_queue;
+
+typedef t_node *t_stack;
+typedef t_node *t_lst;
 
 typedef struct s_map
 {
     char **the_rooms;
     char **matrix;
-    int **ways;
     int index_start;
     int index_end;
     int number_of_ants;
@@ -61,21 +63,36 @@ typedef struct s_map
     int number_of_ways;
 } t_map;
 
+/*parsing*/
 int get_next_line(const int fd, char *line);
 void read_map(t_map *pmap);
 void str_trim_end(char *str);
 t_boolean is_integer(char *str);
 void save_rooms(t_map *pmap, char *str);
+/**/
 void create_matrix(t_map *pmap);
 t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2);
 void clear_room_in_matrix(t_map *pmap, int index);
-t_boolean check_ways(t_map *pmap, struct s_stack **st);
+/**/
+void save_ways(t_map *pmap, t_stack *stack);
 
-struct s_stack *s_new_node(t_edge e);
-int s_is_empty(struct s_stack *root);
-void s_push(struct s_stack **root, t_edge data);
-int s_pop(struct s_stack **root);
-t_edge s_peek(struct s_stack *root);
+/*stack*/
+
+void s_initialize(t_stack *pst);
+t_boolean s_is_empty(t_node *root);
+t_boolean s_push(t_stack *pst, t_edge data);
+t_boolean s_pop(t_stack *root);
+t_edge s_peek(t_node *root);
+
+/*list*/
+
+void l_initialize(t_lst *plst);
+t_boolean l_add(int index, t_lst *plst);
+/*void l_show(const t_list *plst);*/
+t_boolean l_delete_node(int index, t_lst *plst);
+void l_delete(t_lst *plst);
+
+/*queue*/
 
 void q_initialize(t_queue * pq);
 t_boolean q_is_empty(const t_queue *pq);

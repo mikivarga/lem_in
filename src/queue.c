@@ -25,7 +25,7 @@ t_boolean q_push(int index, t_queue * pq)
         ft_putendl("Unable to allocate memory!");
         exit(EXIT_FAILURE);
     }
-    pnew->index = index;
+    pnew->info.index = index;
     pnew->next = NULL;
     if (pq->items == 0)
         pq->front = pnew;
@@ -42,7 +42,7 @@ t_boolean q_pop(int *index, t_queue * pq)
 
     if (pq->items == 0)
         return FALSE;
-    *index = pq->front->index;
+    *index = pq->front->info.index;
     pt = pq->front;
     pq->front = pq->front->next;
     free(pt);

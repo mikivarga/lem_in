@@ -1,38 +1,43 @@
 #include "../inc/lem_in.h"
+#include <stdio.h>
 
-struct s_stack *s_new_node(t_edge data)
+void s_initialize(t_stack *pst)
 {
-    struct s_stack *node;
+    *pst = NULL;
+}
+
+static t_node *s_new_node(t_edge data)
+{
+    t_node *node;
     
-    node = (struct s_stack *)malloc(sizeof(struct s_stack));
+    node = (t_node *)malloc(sizeof(t_node));
     if (!node)
-    {
-        ft_putendl("Unable to allocate memory!");
-        exit(EXIT_FAILURE);
-    }
-    node->e.start = data.start;
-    node->e.end = data.end;
+        return node;
+    node->info.e = data;
     node->next = NULL;
     return node;
 }
 
-int s_is_empty(struct s_stack *root)
+t_boolean s_push(t_stack *root, t_edge data)
+{
+    t_node *pnew;
+
+    pnew = s_new_node(data);
+    if (!pnew)
+        return FALSE;
+    pnew->next = *root;
+    *root = pnew;
+    return TRUE;
+}
+
+t_boolean s_is_empty(t_stack root)
 {
     return !root;
 }
 
-void s_push(struct s_stack **root, t_edge data)
+t_boolean s_pop(t_stack *root)
 {
-    struct s_stack *node;
-    
-    node = s_new_node(data);
-    node->next = *root;
-    *root = node;
-}
-
-int s_pop(struct s_stack **root)
-{
-    struct s_stack *temp;
+    t_node *temp;
 
     if (s_is_empty(*root))
         return FALSE;
@@ -42,7 +47,7 @@ int s_pop(struct s_stack **root)
     return TRUE;
 }
 
-t_edge s_peek(struct s_stack *root)
+t_edge s_peek(t_stack root)
 {
-    return root->e;
+    return root->info.e;
 }
