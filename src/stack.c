@@ -30,7 +30,7 @@ t_boolean s_push(t_stack *root, t_edge data)
     return TRUE;
 }
 
-t_boolean s_is_empty(t_stack root)
+t_boolean is_empty(t_node *root)
 {
     return !root;
 }
@@ -39,7 +39,7 @@ t_boolean s_pop(t_stack *root)
 {
     t_node *temp;
 
-    if (s_is_empty(*root))
+    if (is_empty(*root))
         return FALSE;
     temp = *root;
     *root = (*root)->next;
@@ -47,7 +47,7 @@ t_boolean s_pop(t_stack *root)
     return TRUE;
 }
 
-t_edge s_peek(t_stack root)
+t_edge s_peek(t_node *root)
 {
     return root->info.e;
 }
