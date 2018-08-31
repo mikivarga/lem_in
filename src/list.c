@@ -1,4 +1,5 @@
 #include "../inc/lem_in.h"
+#include <stdio.h>
 
 void l_initialize(t_lst *plst)
 {
@@ -53,12 +54,23 @@ t_boolean l_delete_node(int index, t_lst *plst)
     return FALSE;
 }
 
+void l_show(t_lst *plst, char **room, int cnt, void(*pfun)(int, char *))
+{
+    t_edge e;
+
+    if (cnt - 1  && (*plst)->next != NULL)
+        l_show(&((*plst)->next), room, cnt - 1, pfun);
+    e = s_peek(*plst);
+    pfun(cnt, room[e.start]);
+}
+
 void l_delete(t_lst *plst)
 {
     t_node *psave;
 
     while (*plst != NULL)
     {
+        ft_putstr(" MIKI\n");
         psave = (*plst)->next;
         free(*plst);
         *plst = psave;
