@@ -57,7 +57,7 @@ t_boolean l_delete_node(int index, t_lst *plst)
 void l_show(t_lst *plst, char **room, int cnt, void(*pfun)(int, char *))
 {
     t_edge e;
-
+    printf("");
     if (cnt - 1  && (*plst)->next != NULL)
         l_show(&((*plst)->next), room, cnt - 1, pfun);
     e = s_peek(*plst);

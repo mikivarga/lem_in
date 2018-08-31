@@ -103,11 +103,11 @@ void read_map(t_map *pmap)
     while (get_next_line(STDIN_FILENO, data) > 0)
     {
         str_trim_end(data);
-        ft_putendl(data);
         if (COMMENT(data[0], data[1]))
         {
             continue ;
         }
+        ft_putendl(data);
         if (is_command(pmap, data, ants_rooms_links))
         {
             continue ;
