@@ -89,7 +89,8 @@ t_boolean s_pop(t_stack *root);
 
 void l_initialize(t_lst *plst);
 t_boolean l_add(int index, t_lst *plst);
-void l_show(t_lst *plst, char **room, int cnt, void(*pfun)(int, char *));
+/*void l_show(t_lst *plst, char **room, int cnt, int inc, void(*pfun)(int, char *));*/
+void l_show(t_lst *plst, char **room, int nmb_ant, int nmb_room, int index, void(*pfun)(int, char *));
 t_boolean l_delete_node(int index, t_lst *plst);
 void l_delete(t_lst *plst);
 

@@ -15,77 +15,104 @@ t_boolean ways_is_empty(t_lst *ways, t_map *pmap)
     int cnt_ways;
 
     cnt_ways = 0;
+    //ways[cnt_ways]->info.index = 0;
     while (cnt_ways < pmap->number_of_ways)
     {
-        if (!is_empty((ways[cnt_ways++])->next))
+        //ways[cnt_ways]->info.index = 0;
+        if (!is_empty((ways[cnt_ways])->next))
         {
+            ////??
             return FALSE;
         }
+        cnt_ways++;
     }
     return TRUE;
 }
+
 
 void move(t_map *pmap, t_lst *ways)
 {
     t_edge e;
     int cnt_ways;
+    //pmap->number_of_ways = 1;
     int ant = 1;
 
-    pmap->number_of_ways = 1;
     cnt_ways = 0;
-    /*while (cnt_ways < pmap->number_of_ways)
-    {
-        //e = s_peek(ways[cnt_ways]);
-        //l_delete_node(e.start, &ways[cnt_ways++]);
-        ways[cnt_ways] = ways[cnt_ways]->next;
-        cnt_ways++;
-    }*/
-    while (!ways_is_empty(&(*ways)->next, pmap))
+    while (!ways_is_empty(ways, pmap))
     {
         cnt_ways = 0;
         while (cnt_ways < pmap->number_of_ways)
         {
             if (!is_empty((ways[cnt_ways])->next))
             {
-                l_show(&((*ways)->next), pmap->the_rooms, ant, print_ant);
-                e = s_peek((*ways)->next);
-                if (!(pmap->number_of_ants - ant))
+                //ways[cnt_ways]->info.index;
+                printf("\ncnt %d, room %d\n", cnt_ways, ways[cnt_ways]->info.index);
+                l_show(&((ways[cnt_ways])->next), pmap->the_rooms, ways[cnt_ways]->info.e.start, ways[cnt_ways]->info.e.end, cnt_ways + 1, print_ant);
+                if ((pmap->number_of_ants - ant) <= 0)
                 {
-                    ft_putstr("MIKI\n");
-                    l_delete_node(e.start, ways);
+                    pmap->number_of_ants--;
+                    e = s_peek((ways[cnt_ways])->next);
+                    l_delete_node(e.start, &ways[cnt_ways]);
+                }
+                else
+                {
+                    ant++;
+                }
+                ways[cnt_ways]->info.e.end++;
+                ways[cnt_ways]->info.e.start++;
+            }
+            
+            cnt_ways++;            
+        }
+        ft_putchar('\n');
+    }
+}
+
+
+
+/*
+void move(t_map *pmap, t_lst *ways)
+{
+    t_edge e;
+    int cnt_ways;
+    //pmap->number_of_ways = 1;
+    int ant = 1;
+
+    cnt_ways = 0;
+    while (!ways_is_empty(ways, pmap))
+    {
+        cnt_ways = 0;
+        //ways[cnt_ways]->info.index = 0;
+        while (cnt_ways < pmap->number_of_ways)
+        {
+            
+            if (!is_empty((ways[cnt_ways])->next))
+            {
+                ways[cnt_ways]->info.index = ant;
+                printf("\ncnt %d, ant %d\n", cnt_ways, ways[cnt_ways]->info.index);
+                l_show(&((ways[cnt_ways])->next), pmap->the_rooms,  ways[cnt_ways]->info.index, cnt_ways + 1, print_ant);
+                //printf("cnt = %d ant = %d\n", cnt_ways, ant);
+                if ((pmap->number_of_ants - ant) <= 0)
+                {
+                    pmap->number_of_ants--;
+                    e = s_peek((ways[cnt_ways])->next);
+                    l_delete_node(e.start, &ways[cnt_ways]);
                 }
                 else
                 {
                     ant++;
                 }
             }
-            cnt_ways++;
+            cnt_ways++;            
         }
         ft_putchar('\n');
     }
-
-    /*while(!is_empty((*ways)->next)) //here need use all ways
-    {
-        l_show(&((*ways)->next), pmap->the_rooms, ant, print_ant);
-        e = s_peek((*ways)->next);
-        if (!(pmap->number_of_ants - ant))
-        {
-            l_delete_node(e.start, ways);
-        }
-        else
-        {
-            ant++;
-        }
-        ft_putchar('\n');
-    }*/
-}
+}*/
 
 void move_ants(t_map *pmap, t_lst *ways)
 {
     int i;
     
-    //i = 0;
-    //while(i < pmap->number_of_ways)
     ft_putchar('\n');
     move(pmap, ways);
     i = 0;
