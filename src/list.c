@@ -31,32 +31,6 @@ t_boolean l_add(t_ants_info i, t_lst *plst)
     return TRUE;
 }
 
-/*
-t_boolean l_add(int index, t_lst *plst)
-{
-    t_node *pnew;
-    t_node *scan;
-
-    scan = *plst;
-
-    pnew = (t_node *)malloc(sizeof(t_node));
-    if (pnew == NULL)
-        return FALSE;
-    pnew->info.index = index;
-    pnew->next = NULL;
-    if (scan == NULL)
-    {
-        *plst = pnew;
-    }
-    else
-    {
-        while (scan->next != NULL)
-            scan = scan->next;
-        scan->next = pnew;
-    }
-    return TRUE;
-}*/
-
 t_boolean l_delete_node(int index, t_lst *plst)
 {
     t_node *pnode;
@@ -101,13 +75,24 @@ void l_show(t_lst *plst, char **room, int nmb_ant, int nmb_room, int index, void
 void l_show(t_lst *plst, char **room, int ant, int inc, void(*pfun)(int, char *))
 {
     t_edge e;
-
-    if ((ant - inc) > 0  && (*plst)->next != NULL)
+    
+    if (is_empty((*plst)->next))
+    {
+        e = s_peek(*plst);
+        pfun(ant, room[e.start]);
+    }
+    else if ((ant - inc) > 0)//  && (*plst)->next != NULL)
     {
         l_show(&((*plst)->next), room, ant - inc, inc, pfun);
+        /*e = s_peek(*plst);
+        pfun(ant, room[e.start])*/
     }
-    e = s_peek(*plst);
-    pfun(ant, room[e.start]);
+    else
+    {
+        /*e = s_peek(*plst);
+        pfun(ant, room[e.start]);*/
+    }
+
 }
 
     /*if (ant - inc == 0)

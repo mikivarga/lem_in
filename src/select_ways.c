@@ -76,31 +76,40 @@ static t_boolean check_ways(t_map *pmap, t_stack *st)
     return (i == pmap->index_end ? FALSE : TRUE);
 }
 
+static t_ants_info save_index_room(int index)
+{
+    t_ants_info room;
+
+    room.ant = 0;
+    room.index = index;
+
+    return room;
+}
+
 void save_ways(t_map *pmap, t_lst *ways)
 {
     t_node *stack;
     t_edge e;
-    t_ants_info room;
     int i;
+    int len;
 
     i = 0;
     s_initialize(&stack);
     while (i < pmap->number_of_ants && check_ways(pmap, &stack))
     {
         l_initialize(&ways[i]);
+        len = 0;
         while(!is_empty(stack))
         {
             e = s_peek(stack);
             s_pop(&stack);
             if (e.start == pmap->index_end)
                 continue ;
-            room.ant = 0;
-            room.index = e.start;
-            l_add(room, &ways[i]);
+            l_add(save_index_room(e.start), &ways[i]);
+            len++;
         }
-        room.ant = 0;
-        room.index = e.start;
-        l_add(room, &ways[i]);
+        l_add(save_index_room(e.start), &ways[i]);
+        ways[i]->info.room.index = len;
         pmap->number_of_ways++;
         i++;
     }

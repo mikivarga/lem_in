@@ -108,23 +108,6 @@ void move(t_map *pmap, t_lst *ways)
         ft_putchar('\n');
     }
 }*/
-
-t_boolean ways_is_empty(t_lst *ways, int number_of_ways)
-{
-    int cnt_ways;
-
-    cnt_ways = 0;
-    while (cnt_ways < number_of_ways)
-    {
-        if (!is_empty((ways[cnt_ways])->next))
-        {
-            return FALSE;
-        }
-        cnt_ways++;
-    }
-    return TRUE;
-}
-
 /*
 void move(t_map *pmap, t_lst *ways, int nmb_ant, int cnt_ways)
 {
@@ -202,24 +185,43 @@ void move(t_map *pmap, t_lst *ways, int nmb_ant, int cnt_ways)
         }
     }
 }
+*/
+/* work if only one way;
+void move(t_map *pmap, t_lst *ways, int nmb_ant)
+{
+    int cnt_ways;
+
+    cnt_ways = 0;
+    while (cnt_ways < pmap->number_of_ways)
+    {
+        ft_putstr("ANT = ");
+        ft_putnbr(nmb_ant);
+        ft_putstr(":\t");
+        l_show(&((ways[cnt_ways])->next), pmap->the_rooms,  nmb_ant, cnt_ways + 1, print_ant);
+        ft_putstr("\tcnt_ways = ");
+        ft_putnbr(cnt_ways);
+        ft_putstr(" len =");
+        ft_putnbr(ways[cnt_ways]->info.room.index);
+        ft_putchar('\n');
+        cnt_ways++;
+    }
+}
 
 void move_ants(t_map *pmap, t_lst *ways)
 {
-    int cnt_ways;
     int nmb_ant;
     int i;
     
-    ft_putchar('\n');
-    pmap->number_of_ways = 1;
+    //pmap->number_of_ways = 1;
     printf("cnt_ways %d\n", pmap->number_of_ways);
     nmb_ant = 0;
-    while (!ways_is_empty(ways, pmap->number_of_ways))
+    while (nmb_ant < pmap->number_of_ants)
     {
-        cnt_ways = 0;
-        move(pmap, ways, ++nmb_ant, cnt_ways);
+        move(pmap, ways, ++nmb_ant);
         ft_putchar('\n');
-        //sleep(3);
+        sleep(1);
     }
+    //printf(last room)
     i = 0;
     while (i < pmap->number_of_ways)
     {
@@ -227,6 +229,7 @@ void move_ants(t_map *pmap, t_lst *ways)
         l_delete(&ways[i++]);
     }
 }*/
+
 
 t_boolean ant_waits(int all_ants, int *ants_arr)
 {
@@ -248,13 +251,16 @@ t_boolean find_way(t_map *pmap, t_lst *ways, int nmb_ant)
 
     cnt = 0;
     w = ways;
-        
     while(cnt < pmap->number_of_ways)
     {
-        if (!is_empty(w[cnt]) && !w[cnt]->info.room.ant)
+        ft_putstr(" WAY =");
+        ft_putstr(pmap->the_rooms[w[cnt]->info.room.index]);
+        ft_putchar('\n');
+        sleep(1);
+        if (!is_empty(w[cnt]->next) && !w[cnt]->info.room.ant)
         {
-            print_ant(nmb_ant, pmap->the_rooms[w[cnt]->next->info.room.index]);
-            if (!is_empty((w[cnt])))
+            print_ant(nmb_ant, pmap->the_rooms[w[cnt]->info.room.index]);
+            if (!is_empty((w[cnt]->next)))
             {
                 w[cnt]->info.room.ant = nmb_ant;
                 return FALSE;
@@ -279,7 +285,7 @@ t_boolean ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
     w = ways;
     while(cnt < pmap->number_of_ways)
     {
-        while(!is_empty(w[cnt]))
+        while(!is_empty(w[cnt]->next))
         {
             printf("\n!%d!\n", w[cnt]->info.room.ant);
             sleep(1);
@@ -287,9 +293,9 @@ t_boolean ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
             {
                 w[cnt]->info.room.ant = 0;
                 print_ant(nmb_ant, pmap->the_rooms[w[cnt]->next->info.room.index]);
-                if (!is_empty((w[cnt])))
+                if (!is_empty((w[cnt]->next)))
                 {
-                    w[cnt]->info.room.ant = nmb_ant;
+                    w[cnt]->next->info.room.ant = nmb_ant;
                     return FALSE;
                 }
                 return TRUE;
@@ -341,6 +347,7 @@ int main(void)
     map.index_end = 0;
     read_map(&map);
     save_ways(&map, ways);
+    ft_putchar('\n');
     move_ants(&map, ways);
 
     
