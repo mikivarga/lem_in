@@ -240,37 +240,65 @@ t_boolean ant_waits(int all_ants, int *ants_arr)
     {
         if (ants_arr[i])
             return TRUE;
+        i++;
     }
     return FALSE;
 }
 
+
 t_boolean find_way(t_map *pmap, t_lst *ways, int nmb_ant)
 {
     t_lst *w;
+    //
     int cnt;
 
     cnt = 0;
     w = ways;
+
     while(cnt < pmap->number_of_ways)
     {
-        ft_putstr(" WAY =");
-        ft_putstr(pmap->the_rooms[w[cnt]->info.room.index]);
-        ft_putchar('\n');
+        /*ft_putstr(" MYWAY =");
+        t_edge e= s_peek(w[cnt]->next);
+        ft_putstr(pmap->the_rooms[e.start]);
+        ft_putchar('\n');*/
+
+        /*ft_putstr(" WAY =");
+        ft_putstr(pmap->the_rooms[w[cnt]->next->info.room.index]);
+        ft_putchar('\n');*/
         sleep(1);
-        if (!is_empty(w[cnt]->next) && !w[cnt]->info.room.ant)
+        if (!w[cnt]->next->info.room.ant)
         {
-            print_ant(nmb_ant, pmap->the_rooms[w[cnt]->info.room.index]);
-            if (!is_empty((w[cnt]->next)))
+            print_ant(nmb_ant, pmap->the_rooms[w[cnt]->next->info.room.index]);
+            if (!is_empty((w[cnt]->next->next)))
             {
-                w[cnt]->info.room.ant = nmb_ant;
+                w[cnt]->next->info.room.ant = nmb_ant;
                 return FALSE;
             }
             return TRUE;
         }
-        /*else
+        else
         {
+            //t_lst *w2;
+            t_lst *tmp;
 
-        }*/
+            tmp = ways;
+            int i = 0;
+            while (i < pmap->number_of_ways)
+            {
+                if (!tmp[i]->next->info.room.ant)
+                    break;
+                i++;
+            }
+            if (!is_empty(tmp[i]->next))// && (w[cnt]->info.room.index - tmp[i]->info.room.index) < pmap->number_of_ants)
+            {
+                tmp[i]->next->info.room.ant = nmb_ant;
+                print_ant(nmb_ant, pmap->the_rooms[w[cnt]->next->info.room.index]);
+                //if (temp2->length - temp->length < ants)
+				//	return (find_route_3(ant, temp2));
+            }
+            return FALSE;
+
+        }
         cnt++;
     }
     return FALSE;
@@ -278,31 +306,30 @@ t_boolean find_way(t_map *pmap, t_lst *ways, int nmb_ant)
 
 t_boolean ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
 {
-    t_lst *w;
+    t_node *w;
     int cnt;
 
     cnt = 0;
-    w = ways;
     while(cnt < pmap->number_of_ways)
     {
-        while(!is_empty(w[cnt]->next))
+        w = ways[cnt++]->next;//?->next
+        while(!is_empty(w->next))
         {
-            printf("\n!%d!\n", w[cnt]->info.room.ant);
-            sleep(1);
-            if (w[cnt]->info.room.ant == nmb_ant && !w[cnt]->next->info.room.ant)
+            //printf("\n!%d!\n", w->info.room.ant);
+            //sleep(1);
+            if (w->info.room.ant == nmb_ant && !w->next->info.room.ant)
             {
-                w[cnt]->info.room.ant = 0;
-                print_ant(nmb_ant, pmap->the_rooms[w[cnt]->next->info.room.index]);
-                if (!is_empty((w[cnt]->next)))
+                w->info.room.ant = 0;
+                print_ant(nmb_ant, pmap->the_rooms[w->next->info.room.index]);
+                if (!is_empty((w->next)))
                 {
-                    w[cnt]->next->info.room.ant = nmb_ant;
+                    w->next->info.room.ant = nmb_ant;
                     return FALSE;
                 }
                 return TRUE;
             }
-            w[cnt] = w[cnt]->next;
+            w = w->next;
         }
-        cnt++;
     }
     return find_way(pmap, ways, nmb_ant);
 }
@@ -331,6 +358,7 @@ void move_ants(t_map *pmap, t_lst *ways)
     }
     free(ants_array);
 }
+
 
 int main(void)
 {
