@@ -80,6 +80,7 @@ void save_ways(t_map *pmap, t_lst *ways)
 {
     t_node *stack;
     t_edge e;
+    t_ants_info room;
     int i;
 
     i = 0;
@@ -93,9 +94,13 @@ void save_ways(t_map *pmap, t_lst *ways)
             s_pop(&stack);
             if (e.start == pmap->index_end)
                 continue ;
-            l_add(e.start, &ways[i]);
+            room.ant = 0;
+            room.index = e.start;
+            l_add(room, &ways[i]);
         }
-        l_add(e.start, &ways[i]);
+        room.ant = 0;
+        room.index = e.start;
+        l_add(room, &ways[i]);
         pmap->number_of_ways++;
         i++;
     }
