@@ -91,25 +91,24 @@ void save_ways(t_map *pmap, t_lst *ways)
     t_node *stack;
     t_edge e;
     int i;
-    int len;
+   //int len;
 
     i = 0;
     s_initialize(&stack);
     while (i < pmap->number_of_ants && check_ways(pmap, &stack))
     {
         l_initialize(&ways[i]);
-        len = 0;
+        //len = 0;
         while(!is_empty(stack))
         {
             e = s_peek(stack);
             s_pop(&stack);
-            if (e.start == pmap->index_end)
-                continue ;
             l_add(save_index_room(e.start), &ways[i]);
-            len++;
+            //len++;
         }
-        l_add(save_index_room(e.start), &ways[i]);
-        ways[i]->info.room.index = len;
+        //printf("\n");
+        //printf("len ways %d\n", len);
+        //ways[i]->info.room.index = len - 1;
         pmap->number_of_ways++;
         i++;
     }
