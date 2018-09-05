@@ -14,7 +14,7 @@
 			list.c \
 			queue.c \
 			select_ways.c \
-			print.c
+			tools.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

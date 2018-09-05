@@ -82,25 +82,22 @@ t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2);
 void clear_room_in_matrix(t_map *pmap, int index);
 /**/
 void save_ways(t_map *pmap, t_lst *ways);
+void print_ant(int ant, char *room);
+void show_ways(t_map *pmap, t_lst *ways);
 
 t_boolean is_empty(t_node *root);
-t_edge s_peek(t_node *root);
 
 /*stack*/
 
 void s_initialize(t_stack *pst);
 t_boolean s_push(t_stack *pst, t_edge data);
 t_boolean s_pop(t_stack *root);
+t_edge s_peek(t_node *root);
 
 /*list*/
 
 void l_initialize(t_lst *plst);
 t_boolean l_add(t_ants_info i, t_lst *plst);
-/*t_boolean l_add(int index, t_lst *plst);*/
-void l_show(t_lst *plst, char **room, int cnt, int inc, void(*pfun)(int, char *));
-
-/*void l_show(t_lst *plst, char **room, int nmb_ant, int nmb_room, int index, void(*pfun)(int, char *));
-*/
 t_boolean l_delete_node(int index, t_lst *plst);
 void l_delete(t_lst *plst);
 
