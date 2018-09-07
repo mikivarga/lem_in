@@ -10,7 +10,7 @@ static t_boolean is_command(t_map *pmap, char *data, t_parse is_room)
     {
         if (is_room == LINKS && (start != 1 || end != 1))
         {
-            exit(EXIT_FAILURE);//err
+            exit_func(pmap, ERR_MSG);
         }
         return FALSE;
     }
@@ -26,7 +26,7 @@ static t_boolean is_command(t_map *pmap, char *data, t_parse is_room)
     }
     if (start > 1 || end > 1 || is_room != ROOMS)
     {
-        exit(EXIT_FAILURE);//err
+        exit_func(pmap, ERR_MSG);
     }
     return TRUE;
 }
@@ -39,16 +39,16 @@ static t_boolean is_links(t_map *pmap, char *str)
     link1 = ft_strchr(str, '-');
     link2 = ft_strrchr(str, '-');
     if (!link1 || link1 != link2)
-        exit(EXIT_FAILURE);//err
+        exit_func(pmap, ERR_MSG);
     *link1 = '\0';
     if (!add_room_to_matrix(pmap, str, link1 + 1))
-        exit(EXIT_FAILURE);
+        exit_func(pmap, ERR_MSG);
         
     *link1 = '-';
     while (*str) 
     {
         if (!ft_isalnum(*str) && *str != '-')
-            exit(EXIT_FAILURE);
+            exit_func(pmap, ERR_MSG);
         str++;
     }
     return FALSE;
@@ -77,7 +77,7 @@ static t_boolean is_rooms(t_map *pmap, char *str)
     }
     *coord_y++ = '\0';
     if (!is_integer(str) || !is_integer(coord_y))
-        exit(EXIT_FAILURE);
+        exit_func(pmap, ERR_MSG);
     save_rooms(pmap, room);
     pmap->number_of_rooms++;
     return FALSE;
@@ -86,10 +86,10 @@ static t_boolean is_rooms(t_map *pmap, char *str)
 static t_boolean is_ants(t_map *pmap, char *str)
 {
     if (!is_integer(str))
-        exit(EXIT_FAILURE);
+        exit_func(pmap, ERR_MSG);
     pmap->number_of_ants = ft_atoi(str);
     if (pmap->number_of_ants <= 0)
-        exit(EXIT_FAILURE);
+        exit_func(pmap, ERR_MSG);
     return TRUE;
 }
 
@@ -114,7 +114,7 @@ void read_map(t_map *pmap)
         }
         if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
         {
-            exit(EXIT_FAILURE);//err
+            exit_func(pmap, ERR_MSG);
         }
         if (pfun_save[ants_rooms_links](pmap, data) && ants_rooms_links < FORMAT)
         {

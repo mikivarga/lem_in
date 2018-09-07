@@ -11,6 +11,7 @@
 # define MAX_INTEGER_STR "2147483647"
 # define CMD_START "##start"
 # define CMD_END "##end"
+# define ERR_MSG "ERROR\n"
 # define MAX_WAYS 1000
 
 # define COMMAND(ch1, ch2) ((ch1) == '#' && (ch2) == '#')
@@ -76,33 +77,25 @@ void read_map(t_map *pmap);
 void str_trim_end(char *str);
 t_boolean is_integer(char *str);
 void save_rooms(t_map *pmap, char *str);
-/**/
 void create_matrix(t_map *pmap);
 t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2);
 void clear_room_in_matrix(t_map *pmap, int index);
-/**/
 void save_ways(t_map *pmap, t_lst *ways);
 void print_ant(int ant, char *room);
 void show_ways(t_map *pmap, t_lst *ways);
-
 t_boolean is_empty(t_node *root);
-
+void exit_func(t_map *pmap, const char *err_msg);
 /*stack*/
-
 void s_initialize(t_stack *pst);
 t_boolean s_push(t_stack *pst, t_edge data);
 t_boolean s_pop(t_stack *root);
 t_edge s_peek(t_node *root);
-
 /*list*/
-
 void l_initialize(t_lst *plst);
 t_boolean l_add(t_ants_info i, t_lst *plst);
 t_boolean l_delete_node(int index, t_lst *plst);
 void l_delete(t_lst *plst);
-
 /*queue*/
-
 void q_initialize(t_queue * pq);
 t_boolean q_is_empty(const t_queue *pq);
 int q_item_count(const t_queue * pq);
