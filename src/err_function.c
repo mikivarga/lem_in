@@ -2,8 +2,8 @@
 
 void exit_func(t_map *pmap, const char *err_msg)
 {
-    int i;
-
+    //int i;
+    (void)pmap;
     if (err_msg)
         ft_putstr_fd(err_msg, 2);
     exit(EXIT_FAILURE);

@@ -1,26 +1,26 @@
 #include "../inc/lem_in.h"
+#include <stdio.h>
 
-static t_boolean find_way(t_map *pmap, t_lst *ways, int nmb_ant)
+static t_boolean find_way(t_map *pmap, t_lst *ways, int nmb_ant, int cnt)
 {
     t_node *w;
     t_node *tmp;
-    int cnt;
     int i;
 
-    cnt = -1;
     while(++cnt < pmap->number_of_ways)
     {
         if (!(w = ways[cnt]->next)->info.room.ant)
         {
             print_ant(nmb_ant, pmap->the_rooms[w->info.room.index]);
-            return (w && (w->info.room.ant = nmb_ant) ? FALSE : TRUE);
+            return (w  && (w->info.room.ant = nmb_ant) ? FALSE : TRUE);
         }
         else
         {
             i = cnt;
-            while ((tmp = ways[i++]))
-                if (!tmp->next->info.room.ant && (tmp->next->info.room.ant = nmb_ant))
+            while (i < pmap->number_of_ways && (tmp = ways[i]))
+                if (++i && !tmp->next->info.room.ant)
                 {
+                    tmp->next->info.room.ant = nmb_ant;
                     print_ant(nmb_ant, pmap->the_rooms[tmp->next->info.room.index]);
                     return FALSE;
                 }
@@ -55,7 +55,7 @@ static t_boolean ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
             w = w->next;
         }
     }
-    return find_way(pmap, ways, nmb_ant);
+    return find_way(pmap, ways, nmb_ant, -1);
 }
 
 static void move_ants(t_map *pmap, t_lst *ways)
@@ -64,7 +64,7 @@ static void move_ants(t_map *pmap, t_lst *ways)
     int i;
     int j;
 
-    if (!(ant_waiting = ft_strnew(pmap->number_of_ants + 1)))
+    if (!(ant_waiting = ft_strnew(pmap->number_of_ants)))
     {
         exit(EXIT_FAILURE);//err
     }
@@ -103,7 +103,7 @@ int main(void)
     read_map(&map);
     save_ways(&map, ways);
     ft_putchar('\n');
-    //show_ways(&map, ways);
+    show_ways(&map, ways);
     move_ants(&map, ways);
     //free(all)
     return 0;
