@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/08 18:19:30 by mvarga            #+#    #+#             */
+/*   Updated: 2018/09/08 18:36:11 by mvarga           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
@@ -21,87 +33,94 @@
 # define NON_COMPLIANT_LINE(ch) (NEW_LINE((ch)) || IS_SPACE((ch)))
 # define UNSUPORTED_ROOM(ch) ((ch) == 'L')
 
-typedef enum {FALSE, TRUE} t_boolean;
-typedef enum {ORANGE, GREEN, GRAY, PUPLE} t_vertex;
-typedef enum {ANTS, ROOMS, LINKS} t_parse;
-
-typedef struct s_edge
+typedef		enum
 {
-    int start;
-    int end;
-} t_edge;
+	FALSE,
+	TRUE
+}t_boolean;
 
-typedef struct s_ants_info
+typedef	enum	{ORANGE, GREEN, GRAY, PUPLE}	t_vertex;
+typedef enum
 {
-    int index;
-    int ant;
-} t_ants_info;
+	ANTS,	ROOMS,	LINKS
+}				t_parse;
 
-typedef union u_data 
+typedef struct	s_edge
 {
-    int index;
-    t_edge e;
-    t_ants_info room;
-} t_data;
+	int			start;
+	int			end;
+}				t_edge;
 
-typedef struct s_node
+typedef struct	s_ants_info
 {
-    t_data info;
-    struct s_node *next;
-} t_node;
+	int			index;
+	int			ant;
+}				t_ants_info;
 
-typedef struct s_queue
+typedef union	u_data
 {
-    t_node *front;
-    t_node *rear;
-    int items;
-} t_queue;
+	int			index;
+	t_edge		e;
+	t_ants_info	room;
+}				t_data;
+
+typedef	struct		s_node
+{
+	t_data			info;
+	struct s_node	*next;
+}					t_node;
+
+typedef	struct	s_queue
+{
+	t_node		*front;
+	t_node		*rear;
+	int			items;
+}				t_queue;
 
 typedef t_node *t_stack;
 typedef t_node *t_lst;
 
-typedef struct s_map
+typedef	struct	s_map
 {
-    char **the_rooms;
-    char **matrix;
-    int index_start;
-    int index_end;
-    int number_of_ants;
-    int number_of_rooms;
-    int number_of_ways;
-} t_map;
+	char		**the_rooms;
+	char		**matrix;
+	int			index_start;
+	int			index_end;
+	int			number_of_ants;
+	int			number_of_rooms;
+	int			number_of_ways;
+}				t_map;
 
-/*parsing*/
-int get_next_line(const int fd, char *line);
-void read_map(t_map *pmap);
-void str_trim_end(t_map *pmap, char *str);
-t_boolean is_integer(char *str);
-void save_rooms(t_map *pmap, char *str);
-void create_matrix(t_map *pmap);
-t_boolean add_room_to_matrix(t_map *pmap, char *r1, char *r2);
-void clear_room_in_matrix(t_map *pmap, int index);
-void save_ways(t_map *pmap, t_lst *ways);
-void print_ant(int ant, char *room);
-void show_ways(t_map *pmap, t_lst *ways);
-t_boolean is_empty(t_node *root);
-void free_ways(t_map *pmap, t_lst *ways);
-void exit_func(t_map *pmap, const char *err_msg);
-/*stack*/
-void s_initialize(t_stack *pst);
-t_boolean s_push(t_stack *pst, t_edge data);
-t_boolean s_pop(t_stack *root);
-t_edge s_peek(t_node *root);
-/*list*/
-void l_initialize(t_lst *plst);
-t_boolean l_add(t_ants_info i, t_lst *plst);
-t_boolean l_delete_node(int index, t_lst *plst);
-void l_delete(t_lst *plst);
-/*queue*/
-void q_initialize(t_queue * pq);
-t_boolean q_is_empty(const t_queue *pq);
-int q_item_count(const t_queue * pq);
-t_boolean q_push(int index, t_queue * pq);
-t_boolean q_pop(int *index, t_queue * pq);
-void q_empty(t_queue * pq);
+int				get_next_line(const int fd, char *line);
+void			read_map(t_map *pmap);
+void			str_trim_end(t_map *pmap, char *str);
+t_boolean		is_integer(char *str);
+void			save_rooms(t_map *pmap, char *str);
+void			create_matrix(t_map *pmap);
+t_boolean		add_room_to_matrix(t_map *pmap, char *r1, char *r2);
+void			clear_room_in_matrix(t_map *pmap, int index);
+void			save_ways(t_map *pmap, t_lst *ways);
+void			print_ant(int ant, char *room);
+void			show_ways(t_map *pmap, t_lst *ways);
+t_boolean		is_empty(t_node *root);
+void			free_ways(t_map *pmap, t_lst *ways);
+void			exit_func(t_map *pmap, const char *err_msg);
 
-#endif /*LEM_IN_H*/
+void			s_initialize(t_stack *pst);
+t_boolean		s_push(t_stack *pst, t_edge data);
+t_boolean		s_pop(t_stack *root);
+t_edge			s_peek(t_node *root);
+
+void			l_initialize(t_lst *plst);
+t_boolean		l_add(t_ants_info i, t_lst *plst);
+t_boolean		l_delete_node(int index, t_lst *plst);
+void			l_delete(t_lst *plst);
+
+void			q_initialize(t_queue *pq);
+t_bolean		q_is_empty(const t_queue *pq);
+int				q_item_count(const t_queue *pq);
+t_boolean		q_push(int index, t_queue *pq);
+t_boolean		q_pop(int *index, t_queue *pq);
+void			q_empty(t_queue *pq);
+
+#endif
