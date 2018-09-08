@@ -84,6 +84,7 @@ void save_ways(t_map *pmap, t_lst *ways);
 void print_ant(int ant, char *room);
 void show_ways(t_map *pmap, t_lst *ways);
 t_boolean is_empty(t_node *root);
+void free_ways(t_map *pmap, t_lst *ways);
 void exit_func(t_map *pmap, const char *err_msg);
 /*stack*/
 void s_initialize(t_stack *pst);

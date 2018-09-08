@@ -1,5 +1,4 @@
 #include "../inc/lem_in.h"
-#include <stdio.h>
 
 static t_boolean find_way(t_map *pmap, t_lst *ways, int nmb_ant, int cnt)
 {
@@ -65,7 +64,10 @@ static void move_ants(t_map *pmap, t_lst *ways)
     int j;
 
     if (!(ant_waiting = ft_strnew(pmap->number_of_ants)))
+    {
+        free_ways(pmap, ways);
         exit_func(pmap, "Unable to allocate memory!");
+    }
     ft_memset(ant_waiting, 'a', pmap->number_of_ants);
     i = -1;
     while (++i < pmap->number_of_ants)
@@ -103,6 +105,7 @@ int main(void)
     ft_putchar('\n');
     show_ways(&map, ways);
     move_ants(&map, ways);
+    free_ways(&map, ways);
     exit_func(&map, NULL);
     return 0;
 }

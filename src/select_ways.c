@@ -21,7 +21,7 @@ static void save_way(t_map *pmap, t_stack *root, int *nodes, int i)
     int node;
 
     q_initialize(&queue);
-    q_push(pmap->index_start, &queue);//err_queue
+    q_push(pmap->index_start, &queue);
     while (!q_is_empty(&queue))
     {
         i = 0;
@@ -31,11 +31,11 @@ static void save_way(t_map *pmap, t_stack *root, int *nodes, int i)
         {
             if (pmap->matrix[node][i] == GREEN && nodes[i] == ORANGE)
             {
-                q_push(i, &queue);//eer_queue
+                q_push(i, &queue);
                 nodes[i] = GREEN;
                 edge.start = node;
                 edge.end = i;
-                s_push(root, edge);//err_stack
+                s_push(root, edge);
                 if (node == pmap->index_end)
                     break ;
             }
@@ -57,7 +57,7 @@ static t_boolean check_ways(t_map *pmap, t_stack *st)
     save_way(pmap, &stack, nodes, i);
     free(nodes);
     edge.start = i;
-    s_push(st, edge);//err_stack
+    s_push(st, edge);
     while (!is_empty(stack))
     {
         edge = s_peek(stack);
@@ -65,7 +65,7 @@ static t_boolean check_ways(t_map *pmap, t_stack *st)
         if (edge.end == i)
         {
             i = edge.start;
-            s_push(st, edge);//err_stack
+            s_push(st, edge);
             clear_room_in_matrix(pmap, i);
         }
     }
@@ -97,7 +97,7 @@ void save_ways(t_map *pmap, t_lst *ways)
         {
             e = s_peek(stack);
             s_pop(&stack);
-            l_add(save_index_room(e.start), &ways[i]);//err_list //free statck list
+            l_add(save_index_room(e.start), &ways[i]);
         }
         pmap->number_of_ways++;
         i++;
