@@ -1,14 +1,13 @@
 #include "../inc/lem_in.h"
-#include <stdio.h>
 
-void str_trim_end(char *str)
+void str_trim_end(t_map *pmap, char *str)
 {
     size_t len;
     char *str_end;
     
     len = ft_strlen(str);
     if (IS_SPACE(*str))
-        exit(EXIT_FAILURE);//err
+        exit_func(pmap, ERR_MSG);
 	str_end = (str + (len - 1));
 	while (IS_SPACE(*str_end))
 		str_end--;
@@ -36,7 +35,7 @@ t_boolean is_integer(char *str)
     return (*str ? FALSE : TRUE);
 }
 
-void save_rooms(t_map *pmap, char *str)//needed check if the romm is new
+void save_rooms(t_map *pmap, char *str)
 {
     char **pp;
     char **old_rooms;
@@ -46,8 +45,7 @@ void save_rooms(t_map *pmap, char *str)//needed check if the romm is new
     pp = (char **)malloc(sizeof(char *) *(pmap->number_of_rooms + 2));
     if (!pp)
     {
-        ft_putstr("malloc\n");//ERR
-        exit(EXIT_FAILURE);
+        exit_func(pmap, "Unable to allocate memory!");
     }
     old_rooms = pmap->the_rooms;
     while (pmap->number_of_rooms && *old_rooms)

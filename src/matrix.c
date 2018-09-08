@@ -1,5 +1,4 @@
 #include "../inc/lem_in.h"
-#include <stdio.h>
 
 void clear_room_in_matrix(t_map *pmap, int index)
 {
@@ -55,8 +54,7 @@ void create_matrix(t_map *pmap)
     pmap->matrix = (char **)malloc(sizeof(char *) * (i));
     if (!pmap->matrix)
     {
-        ft_putstr("malloc\n");//ERR
-        exit(EXIT_FAILURE);
+        exit_func(pmap, "Unable to allocate memory!");
     }
     while (i-- > 0)
     {

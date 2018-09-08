@@ -65,9 +65,7 @@ static void move_ants(t_map *pmap, t_lst *ways)
     int j;
 
     if (!(ant_waiting = ft_strnew(pmap->number_of_ants)))
-    {
-        exit(EXIT_FAILURE);//err
-    }
+        exit_func(pmap, "Unable to allocate memory!");
     ft_memset(ant_waiting, 'a', pmap->number_of_ants);
     i = -1;
     while (++i < pmap->number_of_ants)
@@ -105,6 +103,6 @@ int main(void)
     ft_putchar('\n');
     show_ways(&map, ways);
     move_ants(&map, ways);
-    //free(all)
+    exit_func(&map, NULL);
     return 0;
 }

@@ -1,5 +1,4 @@
 #include "../inc/lem_in.h"
-#include <stdio.h>
 
 static int *create_arr(t_map *pmap, int data)
 {
@@ -9,10 +8,7 @@ static int *create_arr(t_map *pmap, int data)
     i = 0;
     nodes = (int *)malloc(sizeof(int) * pmap->number_of_rooms);
     if (!nodes)
-    {
-        ft_putendl("Unable to allocate memory!");
-        exit(EXIT_FAILURE);
-    }
+        exit_func(pmap, "Unable to allocate memory!");
     while (i < pmap->number_of_rooms)
         nodes[i++] = data;
     return nodes;
@@ -25,7 +21,7 @@ static void save_way(t_map *pmap, t_stack *root, int *nodes, int i)
     int node;
 
     q_initialize(&queue);
-    q_push(pmap->index_start, &queue);
+    q_push(pmap->index_start, &queue);//err_queue
     while (!q_is_empty(&queue))
     {
         i = 0;
@@ -35,11 +31,11 @@ static void save_way(t_map *pmap, t_stack *root, int *nodes, int i)
         {
             if (pmap->matrix[node][i] == GREEN && nodes[i] == ORANGE)
             {
-                q_push(i, &queue);
+                q_push(i, &queue);//eer_queue
                 nodes[i] = GREEN;
                 edge.start = node;
                 edge.end = i;
-                s_push(root, edge);
+                s_push(root, edge);//err_stack
                 if (node == pmap->index_end)
                     break ;
             }
@@ -61,7 +57,7 @@ static t_boolean check_ways(t_map *pmap, t_stack *st)
     save_way(pmap, &stack, nodes, i);
     free(nodes);
     edge.start = i;
-    s_push(st, edge);
+    s_push(st, edge);//err_stack
     while (!is_empty(stack))
     {
         edge = s_peek(stack);
@@ -69,7 +65,7 @@ static t_boolean check_ways(t_map *pmap, t_stack *st)
         if (edge.end == i)
         {
             i = edge.start;
-            s_push(st, edge);
+            s_push(st, edge);//err_stack
             clear_room_in_matrix(pmap, i);
         }
     }
@@ -91,24 +87,18 @@ void save_ways(t_map *pmap, t_lst *ways)
     t_node *stack;
     t_edge e;
     int i;
-   //int len;
 
     i = 0;
     s_initialize(&stack);
     while (i < pmap->number_of_ants && check_ways(pmap, &stack))
     {
         l_initialize(&ways[i]);
-        //len = 0;
         while(!is_empty(stack))
         {
             e = s_peek(stack);
             s_pop(&stack);
-            l_add(save_index_room(e.start), &ways[i]);
-            //len++;
+            l_add(save_index_room(e.start), &ways[i]);//err_list //free statck list
         }
-        //printf("\n");
-        //printf("len ways %d\n", len);
-        //ways[i]->info.room.index = len - 1;
         pmap->number_of_ways++;
         i++;
     }

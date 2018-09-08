@@ -74,7 +74,7 @@ typedef struct s_map
 /*parsing*/
 int get_next_line(const int fd, char *line);
 void read_map(t_map *pmap);
-void str_trim_end(char *str);
+void str_trim_end(t_map *pmap, char *str);
 t_boolean is_integer(char *str);
 void save_rooms(t_map *pmap, char *str);
 void create_matrix(t_map *pmap);

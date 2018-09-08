@@ -1,5 +1,4 @@
 #include "../inc/lem_in.h"
-#include <stdio.h>
 
 static t_boolean is_command(t_map *pmap, char *data, t_parse is_room)
 {
@@ -102,7 +101,7 @@ void read_map(t_map *pmap)
     ants_rooms_links = ANTS;
     while (get_next_line(STDIN_FILENO, data) > 0)
     {
-        str_trim_end(data);
+        str_trim_end(pmap, data);
         if (COMMENT(data[0], data[1]))
         {
             continue ;

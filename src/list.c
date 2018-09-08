@@ -53,85 +53,6 @@ t_boolean l_delete_node(int index, t_lst *plst)
     }
     return FALSE;
 }
-/*
-void l_show(t_lst *plst, char **room, int nmb_ant, int nmb_room, int index, void(*pfun)(int, char *))
-{
-    t_edge e;
-
-    if ((*plst)->next != NULL && nmb_room)
-    {
-        l_show(&((*plst)->next), room, nmb_ant - index, nmb_room - 1, index, pfun);
-            
-    }
-    else
-    {
-    e = s_peek(*plst);
-    pfun(nmb_ant, room[e.start]);
-    }
-}*/
-
-
-
-void l_show(t_lst *plst, char **room, int ant, int inc, void(*pfun)(int, char *))
-{
-    t_edge e;
-    
-    if (is_empty((*plst)->next))
-    {
-        e = s_peek(*plst);
-        pfun(ant, room[e.start]);
-    }
-    else if ((ant - inc) > 0)//  && (*plst)->next != NULL)
-    {
-        l_show(&((*plst)->next), room, ant - inc, inc, pfun);
-        /*e = s_peek(*plst);
-        pfun(ant, room[e.start])*/
-    }
-    else
-    {
-        /*e = s_peek(*plst);
-        pfun(ant, room[e.start]);*/
-    }
-
-}
-
-    /*if (ant - inc == 0)
-    {
-        e = s_peek(*plst);
-        //ft_putchar('A');
-        pfun(ant, room[e.start]);
-    }
-    else*/ 
-    /*}
-    else
-    {
-        e = s_peek(*plst);
-        //ft_putchar('C');
-        pfun(ant, room[e.start]);
-    }*/
-    /*
-    else
-    {
-         e = s_peek(*plst);
-         ft_putchar('G');
-        pfun(ant, room[e.start]);
-    }*/
-    /*if (!(ant / inc))
-    {
-        e = s_peek(*plst);
-        pfun(ant, room[e.start]);
-    }
-    else if (!(ant % inc))
-    {
-        e = s_peek(*plst);
-        pfun(ant, room[e.start]);
-    }*/ 
-    /*else if ((cnt - inc + 1) > 0)
-    {
-        e = s_peek(*plst);
-        pfun(cnt - (inc), room[e.start]);
-    }*/
-
 
 void l_delete(t_lst *plst)
 {
@@ -139,7 +60,6 @@ void l_delete(t_lst *plst)
 
     while (*plst != NULL)
     {
-        ft_putstr(" MIKI\n");
         psave = (*plst)->next;
         free(*plst);
         *plst = psave;

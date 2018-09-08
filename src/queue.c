@@ -22,8 +22,7 @@ t_boolean q_push(int index, t_queue * pq)
 
     if (!(pnew = (t_node *)malloc(sizeof(t_node))))
     {
-        ft_putendl("Unable to allocate memory!");
-        exit(EXIT_FAILURE);
+        return FALSE;
     }
     pnew->info.index = index;
     pnew->next = NULL;
