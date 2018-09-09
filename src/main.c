@@ -21,6 +21,7 @@ static t_boolean	find_way(t_map *pmap, t_lst *ways, int nmb_ant, int cnt)
 	while (++cnt < pmap->number_of_ways)
 		if (!(w = ways[cnt]->next)->info.room.ant)
 		{
+			//ft_putchar('2');
 			print_ant(nmb_ant, pmap->the_rooms[w->info.room.index]);
 			return (w && (w->info.room.ant = nmb_ant) ? FALSE : TRUE);
 		}
@@ -31,6 +32,7 @@ static t_boolean	find_way(t_map *pmap, t_lst *ways, int nmb_ant, int cnt)
 				if (++i && !tmp->next->info.room.ant)
 				{
 					tmp->next->info.room.ant = nmb_ant;
+					//ft_putchar('3');
 					print_ant
 (nmb_ant, pmap->the_rooms[tmp->next->info.room.index]);
 					return (FALSE);
@@ -49,11 +51,14 @@ static t_boolean	ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
 	while (cnt < pmap->number_of_ways)
 	{
 		w = ways[cnt++]->next;
-		while (w)
+		//ft_putstr("IDIOT\n");
+		while (w->next)
 		{
+			//ft_putchar('Q');
 			if (w->info.room.ant == nmb_ant && !w->next->info.room.ant)
 			{
 				w->info.room.ant = 0;
+				//ft_putchar('1');
 				print_ant(nmb_ant, pmap->the_rooms[w->next->info.room.index]);
 				if (w->next->next && !w->next->next->next)
 				{
@@ -91,6 +96,7 @@ static void			move_ants(t_map *pmap, t_lst *ways)
 					ant_waiting[j] = 0;
 			i = -1;
 			ft_putchar('\n');
+			//ft_putchar('\n');
 		}
 	}
 	free(ant_waiting);
