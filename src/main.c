@@ -23,7 +23,10 @@ static t_boolean	find_way(t_map *pmap, t_lst *ways, int nmb_ant, int cnt)
 		{
 			//ft_putchar('2');
 			print_ant(nmb_ant, pmap->the_rooms[w->info.room.index]);
-			return (w && (w->info.room.ant = nmb_ant) ? FALSE : TRUE);
+			//ft_putchar('\n');
+			//ft_putnbr(nmb_ant);
+			//(w && (w->info.room.ant = nmb_ant) ? ft_putchar('F') : ft_putchar('T'));
+			return (w->next && (w->info.room.ant = nmb_ant) ? FALSE : TRUE);
 		}
 		else
 		{
@@ -52,7 +55,7 @@ static t_boolean	ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
 	{
 		w = ways[cnt++]->next;
 		//ft_putstr("IDIOT\n");
-		while (w->next)
+		while (w)
 		{
 			//ft_putchar('Q');
 			if (w->info.room.ant == nmb_ant && !w->next->info.room.ant)
@@ -96,7 +99,6 @@ static void			move_ants(t_map *pmap, t_lst *ways)
 					ant_waiting[j] = 0;
 			i = -1;
 			ft_putchar('\n');
-			//ft_putchar('\n');
 		}
 	}
 	free(ant_waiting);

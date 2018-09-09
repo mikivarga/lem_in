@@ -96,9 +96,11 @@ void				save_ways(t_map *pmap, t_lst *ways)
 {
 	t_node	*stack;
 	t_edge	e;
+	int		len;
 	int		i;
 
 	i = 0;
+	len = 0;
 	s_initialize(&stack);
 	while (i < pmap->number_of_ants && check_ways(pmap, &stack))
 	{
@@ -108,8 +110,14 @@ void				save_ways(t_map *pmap, t_lst *ways)
 			e = s_peek(stack);
 			s_pop(&stack);
 			l_add(save_index_room(e.start), &ways[i]);
+			len++;
 		}
 		pmap->number_of_ways++;
+		ft_putstr("len ");
+		ft_putnbr(len);
+		ft_putchar('\n');
+		if (len == 2)
+			break; 
 		i++;
 	}
 }
