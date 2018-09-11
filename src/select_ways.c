@@ -53,6 +53,7 @@ static void			save_way(t_map *pmap, t_stack *root, int *nodes, int i)
 			}
 		}
 	}
+
 }
 
 static t_boolean	check_ways(t_map *pmap, t_stack *st)
@@ -113,11 +114,10 @@ void				save_ways(t_map *pmap, t_lst *ways)
 			len++;
 		}
 		pmap->number_of_ways++;
-		ft_putstr("len ");
-		ft_putnbr(len);
-		ft_putchar('\n');
 		if (len == 2)
 			break; 
 		i++;
 	}
+	while (!is_empty(stack))
+		s_pop(&stack);
 }

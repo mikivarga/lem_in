@@ -18,7 +18,11 @@ static t_node	*s_new_node(t_edge data)
 
 	node = (t_node *)malloc(sizeof(t_node));
 	if (!node)
+	{
+		//ft_putstr("IDIOT\n");
 		return (node);
+	}
+	ft_putstr("IDIOT\n");
 	node->info.e = data;
 	node->next = NULL;
 	return (node);
