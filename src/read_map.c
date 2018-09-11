@@ -19,7 +19,6 @@ static t_boolean	is_command(t_map *pmap, char *data, t_parse is_room)
 
 	if (!COMMAND(data[0], data[1]))
 	{
-		
 		if (is_room == LINKS && (start != 1 || end != 1))
 			exit_func(pmap, ERR_MSG);
 		return (FALSE);
@@ -29,14 +28,14 @@ static t_boolean	is_command(t_map *pmap, char *data, t_parse is_room)
 		pmap->index_start = pmap->number_of_rooms;
 		start++;
 	}
-	if (!ft_strcmp(CMD_END, data))
+	else if (!ft_strcmp(CMD_END, data))
 	{
 		pmap->index_end = pmap->number_of_rooms;
 		end++;
 	}
-	if (start > 1 || end > 1)
-		exit_func(pmap, ERR_MSG);
-	if (pmap->index_start == pmap->index_end && pmap->index_end >= 0)
+	cmd(pmap, data);
+	if (start > 1 || end > 1 ||
+(pmap->index_start == pmap->index_end && pmap->index_end >= 0))
 		exit_func(pmap, ERR_MSG);
 	return (TRUE);
 }

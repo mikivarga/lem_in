@@ -35,7 +35,7 @@ void	show_ways(t_map *pmap, t_lst *ways)
 	while (i < pmap->number_of_ways)
 	{
 		way = ways[i];
-		ft_putchar('#');
+		ft_putstr("WAY ");
 		ft_putnbr(i + 1);
 		ft_putchar('\n');
 		while (way)
@@ -49,4 +49,12 @@ void	show_ways(t_map *pmap, t_lst *ways)
 		i++;
 	}
 	ft_putchar('\n');
+}
+
+void	cmd(t_map *pmap, char *data)
+{
+	if (!ft_strcmp(CMD_COLOUR, data))
+		pmap->cmd_colour = TRUE;
+	else if (!ft_strcmp(CMD_PATH, data))
+		pmap->cmd_path = TRUE;
 }

@@ -23,6 +23,8 @@
 # define MAX_INTEGER_STR "2147483647"
 # define CMD_START "##start"
 # define CMD_END "##end"
+# define CMD_COLOUR "##colour"
+# define CMD_PATH "##path"
 # define ERR_MSG "ERROR\n"
 # define MAX_WAYS 1024
 
@@ -98,6 +100,8 @@ typedef	struct		s_map
 	int				number_of_ants;
 	int				number_of_rooms;
 	int				number_of_ways;
+	t_boolean		cmd_colour;
+	t_boolean		cmd_path;
 }					t_map;
 
 int					get_next_line(const int fd, char *line);
@@ -113,6 +117,7 @@ void				print_ant(int ant, char *room);
 void				show_ways(t_map *pmap, t_lst *ways);
 t_boolean			is_empty(t_node *root);
 void				free_ways(t_map *pmap, t_lst *ways);
+void				cmd(t_map *pmap, char *data);
 void				exit_func(t_map *pmap, const char *err_msg);
 
 void				s_initialize(t_stack *pst);

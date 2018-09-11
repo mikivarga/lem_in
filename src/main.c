@@ -111,12 +111,15 @@ int					main(void)
 	map.number_of_ways = 0;
 	map.index_start = -1;
 	map.index_end = -1;
+	map.cmd_colour = FALSE;
+	map.cmd_path = FALSE;
 	read_map(&map);
 	save_ways(&map, ways);
 	if (!map.number_of_ways)
 		exit_func(&map, ERR_MSG);
 	ft_putchar('\n');
-	show_ways(&map, ways);
+	if (map.cmd_path)
+		show_ways(&map, ways);
 	move_ants(&map, ways);
 	free_ways(&map, ways);
 	exit_func(&map, NULL);

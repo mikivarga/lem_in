@@ -12,6 +12,15 @@
 
 #include "../inc/lem_in.h"
 
+static void print_err(t_map *pmap, const char *err_msg)
+{
+	if (pmap->cmd_colour)
+		ft_putstr_fd("\033[1;31m", 2);
+	ft_putstr_fd(err_msg, 2);
+	if (pmap->cmd_colour)
+		ft_putstr_fd("\033[0m", 2);
+}	
+
 void		exit_func(t_map *pmap, const char *err_msg)
 {
 	char	**tmp;
@@ -33,7 +42,7 @@ void		exit_func(t_map *pmap, const char *err_msg)
 	}
 	if (err_msg)
 	{
-		ft_putstr_fd(err_msg, 2);
+		print_err(pmap, err_msg);	
 		exit(EXIT_FAILURE);
 	}
 }
