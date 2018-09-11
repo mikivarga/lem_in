@@ -19,6 +19,7 @@ static t_boolean	is_command(t_map *pmap, char *data, t_parse is_room)
 
 	if (!COMMAND(data[0], data[1]))
 	{
+		
 		if (is_room == LINKS && (start != 1 || end != 1))
 			exit_func(pmap, ERR_MSG);
 		return (FALSE);
@@ -33,10 +34,10 @@ static t_boolean	is_command(t_map *pmap, char *data, t_parse is_room)
 		pmap->index_end = pmap->number_of_rooms;
 		end++;
 	}
-	if (start > 1 || end > 1 || is_room != ROOMS)
-	{
+	if (start > 1 || end > 1)
 		exit_func(pmap, ERR_MSG);
-	}
+	if (pmap->index_start == pmap->index_end && pmap->index_end >= 0)
+		exit_func(pmap, ERR_MSG);
 	return (TRUE);
 }
 
@@ -55,8 +56,12 @@ static t_boolean	is_links(t_map *pmap, char *str)
 	*link1 = '-';
 	while (*str)
 	{
-		if (!ft_isalnum(*str) && *str != '-')
+		if (/*!ft_isalnum(*str) &&*/ *str == ' ' && *str != '-')
+		{
+			ft_putstr(str);
+			ft_putchar('\n');
 			exit_func(pmap, ERR_MSG);
+		}
 		str++;
 	}
 	return (FALSE);
@@ -68,7 +73,7 @@ static t_boolean	is_rooms(t_map *pmap, char *str)
 	char	*coord_y;
 
 	room = str;
-	while (*str && ft_isalnum(*str))
+	while (*str && *str != ' ')//ft_isalnum(*str))
 		str++;
 	if (!*str || !*(str + 1) || *str != ' ')// || !ft_isdigit(*(str + 1)))
 	{
@@ -113,10 +118,10 @@ void				read_map(t_map *pmap)
 	pfun_save[LINKS] = is_links;
 	while (get_next_line(STDIN_FILENO, data) > 0)
 	{
-		str_trim_end(pmap, data);
 		if (COMMENT(data[0], data[1]))
 			continue ;
 		ft_putendl(data);
+		str_trim_end(pmap, data);
 		if (is_command(pmap, data, ants_rooms_links))
 			continue ;
 		if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
@@ -125,4 +130,6 @@ void				read_map(t_map *pmap)
 ants_rooms_links < FORMAT)
 			ants_rooms_links++;
 	}
+	if (!pmap->number_of_ants)
+		exit_func(pmap, ERR_MSG);
 }

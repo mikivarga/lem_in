@@ -56,14 +56,16 @@ void		save_rooms(t_map *pmap, char *str)
 	i = 0;
 	if (!*str)
 		return ;
-	pp = (char **)malloc(sizeof(char *) * (pmap->number_of_rooms + 2));
-	if (!pp)
-	{
+	if (!(pp = (char **)malloc(sizeof(char *) * (pmap->number_of_rooms + 2))))
 		exit_func(pmap, "Unable to allocate memory!");
-	}
 	old_rooms = pmap->the_rooms;
 	while (pmap->number_of_rooms && old_rooms[i])
 	{
+		if (!ft_strcmp(old_rooms[i], str))
+		{
+			free(pp);
+			exit_func(pmap, ERR_MSG);
+		}
 		pp[i] = old_rooms[i];
 		i++;
 	}

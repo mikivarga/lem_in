@@ -109,10 +109,12 @@ int					main(void)
 	map.number_of_ants = 0;
 	map.number_of_rooms = 0;
 	map.number_of_ways = 0;
-	map.index_start = 0;
-	map.index_end = 0;
+	map.index_start = -1;
+	map.index_end = -1;
 	read_map(&map);
 	save_ways(&map, ways);
+	if (!map.number_of_ways)
+		exit_func(&map, ERR_MSG);
 	ft_putchar('\n');
 	show_ways(&map, ways);
 	move_ants(&map, ways);
