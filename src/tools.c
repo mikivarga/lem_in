@@ -17,12 +17,20 @@ void	s_initialize(t_stack *pst)
 	*pst = NULL;
 }
 
-void	print_ant(int ant, char *room)
+void	print_ant(t_map *pmap, int ant, char *room)
 {
+	if (pmap->cmd_colour)
+		ft_putstr_fd("\033[1;32m", 2);
 	ft_putchar('L');
 	ft_putnbr(ant);
+	if (pmap->cmd_colour)
+		ft_putstr_fd("\033[0m", 2);
 	ft_putchar('-');
+	if (pmap->cmd_colour)
+		ft_putstr_fd("\033[1;35m", 2);
 	ft_putstr(room);
+	if (pmap->cmd_colour)
+		ft_putstr_fd("\033[0m", 2);
 	ft_putchar(' ');
 }
 
@@ -35,9 +43,13 @@ void	show_ways(t_map *pmap, t_lst *ways)
 	while (i < pmap->number_of_ways)
 	{
 		way = ways[i];
+		if (pmap->cmd_colour)
+			ft_putstr_fd("\033[1;31m", 2);
 		ft_putstr("WAY ");
 		ft_putnbr(i + 1);
 		ft_putchar('\n');
+		if (pmap->cmd_colour)
+			ft_putstr_fd("\033[0m", 2);
 		while (way)
 		{
 			ft_putstr(pmap->the_rooms[way->info.room.index]);

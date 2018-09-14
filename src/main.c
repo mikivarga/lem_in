@@ -21,7 +21,7 @@ static t_boolean	find_way(t_map *pmap, t_lst *ways, int nmb_ant, int cnt)
 	while (++cnt < pmap->number_of_ways)
 		if (!(w = ways[cnt]->next)->info.room.ant)
 		{
-			print_ant(nmb_ant, pmap->the_rooms[w->info.room.index]);
+			print_ant(pmap, nmb_ant, pmap->the_rooms[w->info.room.index]);
 			return (w->next && (w->info.room.ant = nmb_ant) ? FALSE : TRUE);
 		}
 		else
@@ -32,7 +32,7 @@ static t_boolean	find_way(t_map *pmap, t_lst *ways, int nmb_ant, int cnt)
 				{
 					tmp->next->info.room.ant = nmb_ant;
 					print_ant
-(nmb_ant, pmap->the_rooms[tmp->next->info.room.index]);
+(pmap, nmb_ant, pmap->the_rooms[tmp->next->info.room.index]);
 					return (FALSE);
 				}
 			return (FALSE);
@@ -56,7 +56,7 @@ static t_boolean	ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
 					if (!w->next->info.room.ant)
 					{
 						w->info.room.ant = 0;
-						print_ant(nmb_ant, pmap->the_rooms[w->next->info.room.index]);
+						print_ant(pmap, nmb_ant, pmap->the_rooms[w->next->info.room.index]);
 						if (w->next->next)
 						{
 							w->next->info.room.ant = nmb_ant;

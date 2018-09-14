@@ -113,7 +113,7 @@ void				create_matrix(t_map *pmap);
 t_boolean			add_room_to_matrix(t_map *pmap, char *r1, char *r2);
 void				clear_room_in_matrix(t_map *pmap, int index);
 void				save_ways(t_map *pmap, t_lst *ways);
-void				print_ant(int ant, char *room);
+void				print_ant(t_map *pmap, int ant, char *room);
 void				show_ways(t_map *pmap, t_lst *ways);
 t_boolean			is_empty(t_node *root);
 void				free_ways(t_map *pmap, t_lst *ways);
