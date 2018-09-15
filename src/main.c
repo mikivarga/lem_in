@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 13:27:28 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/09 14:02:47 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/15 14:41:58 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,17 @@ static t_boolean	ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
 		w = ways[cnt++];
 		while (w)
 		{
-			if (w->info.room.ant == nmb_ant)
+			if (w->info.room.ant == nmb_ant && !w->next->info.room.ant)
 			{
-					if (!w->next->info.room.ant)
-					{
-						w->info.room.ant = 0;
-						print_ant(pmap, nmb_ant, pmap->the_rooms[w->next->info.room.index]);
-						if (w->next->next)
-						{
-							w->next->info.room.ant = nmb_ant;
-							return FALSE;
-						}
-						return TRUE;
-					}
+				w->info.room.ant = 0;
+				print_ant
+(pmap, nmb_ant, pmap->the_rooms[w->next->info.room.index]);
+				if (w->next->next)
+				{
+					w->next->info.room.ant = nmb_ant;
+					return (FALSE);
+				}
+				return (TRUE);
 			}
 			w = w->next;
 		}
@@ -71,7 +69,7 @@ static t_boolean	ants_go_go_go(t_map *pmap, t_lst *ways, int nmb_ant)
 	return (find_way(pmap, ways, nmb_ant, -1));
 }
 
-void			move_ants(t_map *pmap, t_lst *ways)
+void				move_ants(t_map *pmap, t_lst *ways)
 {
 	char	*ant_waiting;
 	int		i;

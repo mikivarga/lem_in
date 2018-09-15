@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 14:34:46 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/09 15:06:00 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/15 13:41:39 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,16 @@ static t_boolean	is_command(t_map *pmap, char *data, t_parse is_room)
 			exit_func(pmap, ERR_MSG);
 		return (FALSE);
 	}
-	if (!ft_strcmp(CMD_START, data))
-	{
-		pmap->index_start = pmap->number_of_rooms;
-		start++;
-	}
-	else if (!ft_strcmp(CMD_END, data))
-	{
-		pmap->index_end = pmap->number_of_rooms;
-		end++;
-	}
-	cmd(pmap, data);
+	ft_putendl(data);
+	if ((!ft_strcmp(CMD_START, data) || !ft_strcmp(CMD_END, data)) &&
+is_room == ANTS)
+		exit_func(pmap, ERR_MSG);
+	cmd(pmap, data, &start, &end);
 	if (start > 1 || end > 1 ||
 (pmap->index_start == pmap->index_end && pmap->index_end >= 0))
 		exit_func(pmap, ERR_MSG);
 	return (TRUE);
+	(void)is_room;
 }
 
 static t_boolean	is_links(t_map *pmap, char *str)
@@ -48,14 +43,17 @@ static t_boolean	is_links(t_map *pmap, char *str)
 	link1 = ft_strchr(str, '-');
 	link2 = ft_strrchr(str, '-');
 	if (!link1 || link1 != link2)
+	{
+		ft_putstr("IDI\n");
 		exit_func(pmap, ERR_MSG);
+	}
 	*link1 = '\0';
 	if (!add_room_to_matrix(pmap, str, link1 + 1))
 		exit_func(pmap, ERR_MSG);
 	*link1 = '-';
 	while (*str)
 	{
-		if (/*!ft_isalnum(*str) &&*/ *str == ' ' && *str != '-')
+		if (*str == ' ' && *str != '-')
 		{
 			ft_putstr(str);
 			ft_putchar('\n');
@@ -72,9 +70,9 @@ static t_boolean	is_rooms(t_map *pmap, char *str)
 	char	*coord_y;
 
 	room = str;
-	while (*str && *str != ' ')//ft_isalnum(*str))
+	while (*str && *str != ' ')
 		str++;
-	if (!*str || !*(str + 1) || *str != ' ')// || !ft_isdigit(*(str + 1)))
+	if (!*str || !*(str + 1) || *str != ' ')
 	{
 		create_matrix(pmap);
 		is_links(pmap, room);
@@ -115,18 +113,19 @@ void				read_map(t_map *pmap)
 	pfun_save[ANTS] = is_ants;
 	pfun_save[ROOMS] = is_rooms;
 	pfun_save[LINKS] = is_links;
-	while (get_next_line(STDIN_FILENO, data) > 0)
+	while (get_line(STDIN_FILENO, data) > 0 && ants_rooms_links < FORMAT)
 	{
 		if (COMMENT(data[0], data[1]))
 			continue ;
-		ft_putendl(data);
-		str_trim_end(pmap, data);
+		if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
+		{
+			break ;
+		}
+		str_trim_end(data);
 		if (is_command(pmap, data, ants_rooms_links))
 			continue ;
-		if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
-			exit_func(pmap, ERR_MSG);
-		if (pfun_save[ants_rooms_links](pmap, data) &&
-ants_rooms_links < FORMAT)
+		ft_putendl(data);
+		if (pfun_save[ants_rooms_links](pmap, data))
 			ants_rooms_links++;
 	}
 	if (!pmap->number_of_ants)

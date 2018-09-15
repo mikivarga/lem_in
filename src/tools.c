@@ -63,9 +63,19 @@ void	show_ways(t_map *pmap, t_lst *ways)
 	ft_putchar('\n');
 }
 
-void	cmd(t_map *pmap, char *data)
+void	cmd(t_map *pmap, char *data, int *start, int *end)
 {
-	if (!ft_strcmp(CMD_COLOUR, data))
+	if (!ft_strcmp(CMD_START, data))
+	{
+		pmap->index_start = pmap->number_of_rooms;
+		(*start)++;
+	}
+	else if (!ft_strcmp(CMD_END, data))
+	{
+		pmap->index_end = pmap->number_of_rooms;
+		(*end)++;
+	}
+	else if (!ft_strcmp(CMD_COLOUR, data))
 		pmap->cmd_colour = TRUE;
 	else if (!ft_strcmp(CMD_PATH, data))
 		pmap->cmd_path = TRUE;

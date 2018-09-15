@@ -6,20 +6,20 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 14:19:21 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/09 14:21:47 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/15 13:40:01 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/lem_in.h"
 
-static void print_err(t_map *pmap, const char *err_msg)
+static void	print_err(t_map *pmap, const char *err_msg)
 {
 	if (pmap->cmd_colour)
 		ft_putstr_fd("\033[1;31m", 2);
 	ft_putstr_fd(err_msg, 2);
 	if (pmap->cmd_colour)
 		ft_putstr_fd("\033[0m", 2);
-}	
+}
 
 void		exit_func(t_map *pmap, const char *err_msg)
 {
@@ -42,7 +42,7 @@ void		exit_func(t_map *pmap, const char *err_msg)
 	}
 	if (err_msg)
 	{
-		print_err(pmap, err_msg);	
+		print_err(pmap, err_msg);
 		exit(EXIT_FAILURE);
 	}
 }

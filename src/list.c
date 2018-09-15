@@ -75,5 +75,4 @@ void		l_delete(t_lst *plst)
 		free(*plst);
 		*plst = psave;
 	}
-	ft_putchar('\n');
 }

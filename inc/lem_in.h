@@ -38,7 +38,8 @@
 typedef enum		e_boolean
 {
 	FALSE,
-	TRUE
+	TRUE,
+	WARNING
 }					t_boolean;
 
 typedef	enum		e_vertex
@@ -104,9 +105,9 @@ typedef	struct		s_map
 	t_boolean		cmd_path;
 }					t_map;
 
-int					get_next_line(const int fd, char *line);
+int					get_line(const int fd, char *line);
 void				read_map(t_map *pmap);
-void				str_trim_end(t_map *pmap, char *str);
+void				str_trim_end(char *str);
 t_boolean			is_integer(char *str);
 void				save_rooms(t_map *pmap, char *str);
 void				create_matrix(t_map *pmap);
@@ -117,7 +118,7 @@ void				print_ant(t_map *pmap, int ant, char *room);
 void				show_ways(t_map *pmap, t_lst *ways);
 t_boolean			is_empty(t_node *root);
 void				free_ways(t_map *pmap, t_lst *ways);
-void				cmd(t_map *pmap, char *data);
+void				cmd(t_map *pmap, char *data, int *start, int *end);
 void				exit_func(t_map *pmap, const char *err_msg);
 
 void				s_initialize(t_stack *pst);

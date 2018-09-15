@@ -32,7 +32,7 @@ static int	read_line(char *saved_buff, char *buff, char *line)
 	return (FALSE);
 }
 
-int			get_next_line(const int fd, char *line)
+int			get_line(const int fd, char *line)
 {
 	ssize_t		num_read;
 	char		buff[MAX_READ + 1];

@@ -6,20 +6,18 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 15:50:17 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/09 15:54:25 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/15 13:44:03 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/lem_in.h"
 
-void		str_trim_end(t_map *pmap, char *str)
+void		str_trim_end(char *str)
 {
 	size_t	len;
 	char	*str_end;
 
 	len = ft_strlen(str);
-	if (IS_SPACE(*str))
-		exit_func(pmap, ERR_MSG);
 	str_end = (str + (len - 1));
 	while (IS_SPACE(*str_end))
 		str_end--;
@@ -51,7 +49,7 @@ void		save_rooms(t_map *pmap, char *str)
 {
 	char	**pp;
 	char	**old_rooms;
-	int i;
+	int		i;
 
 	i = 0;
 	if (!*str)

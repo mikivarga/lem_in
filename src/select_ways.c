@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 15:06:20 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/09 15:16:58 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/15 13:43:04 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void			save_way(t_map *pmap, t_stack *root, int *nodes, int i)
 			}
 		}
 	}
-
 }
 
 static t_boolean	check_ways(t_map *pmap, t_stack *st)
@@ -115,7 +114,7 @@ void				save_ways(t_map *pmap, t_lst *ways)
 		}
 		pmap->number_of_ways++;
 		if (len == 2)
-			break; 
+			break ;
 		i++;
 	}
 	while (!is_empty(stack))
