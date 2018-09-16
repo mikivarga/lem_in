@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 18:19:30 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/09 13:58:26 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/16 18:09:16 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,11 @@ typedef	struct		s_map
 int					get_line(const int fd, char *line);
 void				read_map(t_map *pmap);
 void				str_trim_end(char *str);
-void		save_map(t_map *pmap, char *data, t_parse is_room);
+void				save_map(t_map *pmap, char *data, t_parse is_room);
 t_boolean			is_integer(char *str);
-void move(t_map *pmap, t_boolean flag);
+void				move(t_map *pmap, t_boolean flag);
 void				save_rooms(t_map *pmap, char *str);
-void	show_map(t_map *pmap);
+void				show_map(t_map *pmap);
 void				create_matrix(t_map *pmap);
 t_boolean			add_room_to_matrix(t_map *pmap, char *r1, char *r2);
 void				clear_room_in_matrix(t_map *pmap, int index);

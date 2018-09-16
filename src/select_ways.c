@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 15:06:20 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/15 13:43:04 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/16 18:18:27 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ void				save_ways(t_map *pmap, t_lst *ways)
 			break ;
 		i++;
 	}
-	
 	while (!is_empty(stack))
 		s_pop(&stack);
 }

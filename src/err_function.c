@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 14:19:21 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/15 13:40:01 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/16 18:14:09 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,27 @@ static void	print_err(t_map *pmap, const char *err_msg)
 		ft_putstr_fd("\033[0m", 2);
 }
 
+static void	exit_func2(t_map *pmap, const char *err_msg)
+{
+	int	i;
+
+	if (pmap->matrix)
+	{
+		i = 0;
+		while (i < pmap->number_of_rooms)
+			free(pmap->matrix[i++]);
+		free(pmap->matrix);
+	}
+	if (err_msg)
+	{
+		print_err(pmap, err_msg);
+		exit(EXIT_FAILURE);
+	}
+}
+
 void		exit_func(t_map *pmap, const char *err_msg)
 {
 	char	**tmp;
-	int		i;
 
 	if (pmap->map)
 	{
@@ -43,25 +60,8 @@ void		exit_func(t_map *pmap, const char *err_msg)
 			free(*tmp++);
 		free(pmap->the_rooms);
 	}
-	if (pmap->matrix)
-	{
-		i = 0;
-		while (i < pmap->number_of_rooms)
-			free(pmap->matrix[i++]);
-		free(pmap->matrix);
-	}
-	if (err_msg)
-	{
-		print_err(pmap, err_msg);
-		exit(EXIT_FAILURE);
-	}
+	exit_func2(pmap, err_msg);
 }
-
-/*
-exit_func_non_compliant_line(t_map *pmap, const char *err_msg)
-{
-
-}*/
 
 void		free_ways(t_map *pmap, t_lst *ways)
 {

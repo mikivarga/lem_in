@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 13:27:28 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/15 14:41:58 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/16 18:18:56 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void				move_ants(t_map *pmap, t_lst *ways)
 	free(ant_waiting);
 }
 
-void move(t_map *pmap, t_boolean flag)
+void				move(t_map *pmap, t_boolean flag)
 {
 	t_node	*ways[MAX_WAYS];
 
@@ -129,7 +129,7 @@ int					main(void)
 	map.index_start = -1;
 	map.index_end = -1;
 	map.cmd_colour = FALSE;
-	map.cmd_path = FALSE;;
+	map.cmd_path = FALSE;
 	read_map(&map);
 	move(&map, FALSE);
 	return (0);

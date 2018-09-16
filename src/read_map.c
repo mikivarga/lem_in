@@ -6,7 +6,7 @@
 /*   By: mvarga <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 14:34:46 by mvarga            #+#    #+#             */
-/*   Updated: 2018/09/15 13:41:39 by mvarga           ###   ########.fr       */
+/*   Updated: 2018/09/16 18:20:37 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ static t_boolean	is_command(t_map *pmap, char *data, t_parse is_room)
 	if (!COMMAND(data[0], data[1]))
 	{
 		if (is_room == LINKS && (start != 1 || end != 1))
-		{
-			exit_func(pmap, ERR_MSG);	
-		}
+			exit_func(pmap, ERR_MSG);
 		return (FALSE);
 	}
 	if ((!ft_strcmp(CMD_START, data) || !ft_strcmp(CMD_END, data)) &&
@@ -83,7 +81,6 @@ static t_boolean	is_rooms(t_map *pmap, char *str)
 	if (!is_integer(str) || !is_integer(coord_y))
 		exit_func(pmap, ERR_MSG);
 	save_rooms(pmap, room);
-	pmap->number_of_rooms++;
 	return (FALSE);
 }
 
