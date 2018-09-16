@@ -30,7 +30,7 @@
 
 # define COMMAND(ch1, ch2) ((ch1) == '#' && (ch2) == '#')
 # define COMMENT(ch1, ch2) ((ch1) == '#' && (ch2) != '#')
-# define NEW_LINE(ch) ((ch) == '\n')
+# define NEW_LINE(ch) ((ch) == '\n' || (ch) == '\0')
 # define IS_SPACE(ch) ((ch) == ' ' || ((ch) > 8 && (ch) < 14))
 # define NON_COMPLIANT_LINE(ch) (NEW_LINE((ch)) || IS_SPACE((ch)))
 # define UNSUPORTED_ROOM(ch) ((ch) == 'L')
@@ -94,6 +94,7 @@ typedef t_node		*t_lst;
 
 typedef	struct		s_map
 {
+	char			**map;
 	char			**the_rooms;
 	char			**matrix;
 	int				index_start;
@@ -101,6 +102,7 @@ typedef	struct		s_map
 	int				number_of_ants;
 	int				number_of_rooms;
 	int				number_of_ways;
+	int				cnt_lines;
 	t_boolean		cmd_colour;
 	t_boolean		cmd_path;
 }					t_map;
@@ -108,8 +110,11 @@ typedef	struct		s_map
 int					get_line(const int fd, char *line);
 void				read_map(t_map *pmap);
 void				str_trim_end(char *str);
+void		save_map(t_map *pmap, char *data, t_parse is_room);
 t_boolean			is_integer(char *str);
+void move(t_map *pmap, t_boolean flag);
 void				save_rooms(t_map *pmap, char *str);
+void	show_map(t_map *pmap);
 void				create_matrix(t_map *pmap);
 t_boolean			add_room_to_matrix(t_map *pmap, char *r1, char *r2);
 void				clear_room_in_matrix(t_map *pmap, int index);

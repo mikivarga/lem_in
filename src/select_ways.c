@@ -117,6 +117,7 @@ void				save_ways(t_map *pmap, t_lst *ways)
 			break ;
 		i++;
 	}
+	
 	while (!is_empty(stack))
 		s_pop(&stack);
 }

@@ -26,6 +26,16 @@ void		exit_func(t_map *pmap, const char *err_msg)
 	char	**tmp;
 	int		i;
 
+	if (pmap->map)
+	{
+		tmp = pmap->map;
+		while (*tmp)
+		{
+			ft_putendl(*tmp);
+			free(*tmp++);
+		}
+		free(pmap->map);
+	}
 	if (pmap->the_rooms)
 	{
 		tmp = pmap->the_rooms;
@@ -46,6 +56,12 @@ void		exit_func(t_map *pmap, const char *err_msg)
 		exit(EXIT_FAILURE);
 	}
 }
+
+/*
+exit_func_non_compliant_line(t_map *pmap, const char *err_msg)
+{
+
+}*/
 
 void		free_ways(t_map *pmap, t_lst *ways)
 {

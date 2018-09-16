@@ -20,10 +20,11 @@ static t_boolean	is_command(t_map *pmap, char *data, t_parse is_room)
 	if (!COMMAND(data[0], data[1]))
 	{
 		if (is_room == LINKS && (start != 1 || end != 1))
-			exit_func(pmap, ERR_MSG);
+		{
+			exit_func(pmap, ERR_MSG);	
+		}
 		return (FALSE);
 	}
-	ft_putendl(data);
 	if ((!ft_strcmp(CMD_START, data) || !ft_strcmp(CMD_END, data)) &&
 is_room == ANTS)
 		exit_func(pmap, ERR_MSG);
@@ -32,7 +33,6 @@ is_room == ANTS)
 (pmap->index_start == pmap->index_end && pmap->index_end >= 0))
 		exit_func(pmap, ERR_MSG);
 	return (TRUE);
-	(void)is_room;
 }
 
 static t_boolean	is_links(t_map *pmap, char *str)
@@ -43,22 +43,15 @@ static t_boolean	is_links(t_map *pmap, char *str)
 	link1 = ft_strchr(str, '-');
 	link2 = ft_strrchr(str, '-');
 	if (!link1 || link1 != link2)
-	{
-		ft_putstr("IDI\n");
-		exit_func(pmap, ERR_MSG);
-	}
+		move(pmap, TRUE);
 	*link1 = '\0';
 	if (!add_room_to_matrix(pmap, str, link1 + 1))
-		exit_func(pmap, ERR_MSG);
+		move(pmap, TRUE);
 	*link1 = '-';
 	while (*str)
 	{
 		if (*str == ' ' && *str != '-')
-		{
-			ft_putstr(str);
-			ft_putchar('\n');
-			exit_func(pmap, ERR_MSG);
-		}
+			move(pmap, TRUE);
 		str++;
 	}
 	return (FALSE);
@@ -74,6 +67,7 @@ static t_boolean	is_rooms(t_map *pmap, char *str)
 		str++;
 	if (!*str || !*(str + 1) || *str != ' ')
 	{
+		is_command(pmap, str, LINKS);
 		create_matrix(pmap);
 		is_links(pmap, room);
 		return (TRUE);
@@ -117,17 +111,15 @@ void				read_map(t_map *pmap)
 	{
 		if (COMMENT(data[0], data[1]))
 			continue ;
-		if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
-		{
-			break ;
-		}
 		str_trim_end(data);
+		if (NON_COMPLIANT_LINE(data[0]) || UNSUPORTED_ROOM(data[0]))
+			break ;
+		save_map(pmap, data, ants_rooms_links);
 		if (is_command(pmap, data, ants_rooms_links))
 			continue ;
-		ft_putendl(data);
 		if (pfun_save[ants_rooms_links](pmap, data))
 			ants_rooms_links++;
 	}
-	if (!pmap->number_of_ants)
+	if (!pmap->number_of_ants || ants_rooms_links == ROOMS)
 		exit_func(pmap, ERR_MSG);
 }

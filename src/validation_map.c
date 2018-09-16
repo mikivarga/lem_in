@@ -73,3 +73,48 @@ void		save_rooms(t_map *pmap, char *str)
 		free(old_rooms);
 	pmap->the_rooms = pp;
 }
+
+static t_boolean check_coord_xy(char *data1, char *data2, t_parse is_room)
+{
+	int fl;
+	char *pstr1;
+	char *pstr2;
+
+	if (is_room != ROOMS || COMMAND(data2[0], data2[1]) || COMMAND(data1[0], data1[1]))
+		return TRUE;
+	pstr1 = ft_strchr(data1, ' ');
+	pstr2 = ft_strchr(data2, ' ');
+	if (!pstr1 | !pstr2)
+		return TRUE;
+	fl = ft_strcmp(pstr1, pstr2);
+	return (fl == 0 ? FALSE : TRUE);
+}
+
+void		save_map(t_map *pmap, char *data, t_parse is_room)
+{
+	char	**pp;
+	char	**old_rooms;
+	int		i;
+
+	i = 0;
+	if (!*data)
+		return ;
+	if (!(pp = (char **)malloc(sizeof(char *) * (pmap->cnt_lines + 2))))
+		exit_func(pmap, "Unable to allocate memory!");
+	old_rooms = pmap->map;
+	while (pmap->cnt_lines && old_rooms[i])
+	{	
+		if (!check_coord_xy(old_rooms[i], data, is_room))
+		{
+			free(pp);
+			exit_func(pmap, ERR_MSG);
+		}
+		pp[i] = old_rooms[i];
+		i++;
+	}
+	pp[i++] = ft_strdup(data);
+	pp[i] = 0;
+	if (pmap->cnt_lines++)
+		free(old_rooms);
+	pmap->map = pp;
+}

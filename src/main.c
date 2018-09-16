@@ -97,29 +97,40 @@ void				move_ants(t_map *pmap, t_lst *ways)
 	free(ant_waiting);
 }
 
+void move(t_map *pmap, t_boolean flag)
+{
+	t_node	*ways[MAX_WAYS];
+
+	save_ways(pmap, ways);
+	show_map(pmap);
+	if (!pmap->number_of_ways)
+		exit_func(pmap, ERR_MSG);
+	ft_putchar('\n');
+	if (pmap->cmd_path)
+		show_ways(pmap, ways);
+	move_ants(pmap, ways);
+	free_ways(pmap, ways);
+	exit_func(pmap, NULL);
+	if (flag)
+		exit(EXIT_SUCCESS);
+}
+
 int					main(void)
 {
 	t_map	map;
-	t_node	*ways[MAX_WAYS];
 
+	map.map = NULL;
 	map.the_rooms = NULL;
 	map.matrix = NULL;
 	map.number_of_ants = 0;
 	map.number_of_rooms = 0;
 	map.number_of_ways = 0;
+	map.cnt_lines = 0;
 	map.index_start = -1;
 	map.index_end = -1;
 	map.cmd_colour = FALSE;
-	map.cmd_path = FALSE;
+	map.cmd_path = FALSE;;
 	read_map(&map);
-	save_ways(&map, ways);
-	if (!map.number_of_ways)
-		exit_func(&map, ERR_MSG);
-	ft_putchar('\n');
-	if (map.cmd_path)
-		show_ways(&map, ways);
-	move_ants(&map, ways);
-	free_ways(&map, ways);
-	exit_func(&map, NULL);
+	move(&map, FALSE);
 	return (0);
 }

@@ -80,3 +80,17 @@ void	cmd(t_map *pmap, char *data, int *start, int *end)
 	else if (!ft_strcmp(CMD_PATH, data))
 		pmap->cmd_path = TRUE;
 }
+
+void	show_map(t_map *pmap)
+{
+	char **pp;
+
+	pp = pmap->map;
+	while (*pp)
+	{
+		ft_putendl(*pp);
+		free(*pp++);
+	}
+	free(pmap->map);
+	pmap->map = NULL;
+}
